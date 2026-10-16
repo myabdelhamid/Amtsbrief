@@ -1,0 +1,38 @@
+{
+  "id": "reg_02",
+  "letter_type": "registration",
+  "sender": "Bezirksamt Musterstadt – Bürgeramt",
+  "letter_date": "2026-10-05",
+  "amount": null,
+  "reference": "BA-2026-04417",
+  "iban": null,
+  "primary_action": "none",
+  "actions": [
+    "none"
+  ],
+  "deadlines": [],
+  "note": null,
+  "lines": [
+    "Bezirksamt Musterstadt · Bürgeramt · Rathausplatz 3 · 10000 Musterstadt",
+    "",
+    "Herrn Max Mustermann",
+    "Beispielweg 12",
+    "10000 Musterstadt",
+    "",
+    "Datum: 05.10.2026",
+    "Vorgangsnummer: BA-2026-04417",
+    "",
+    "Meldebestätigung",
+    "",
+    "Sehr geehrter Herr Mustermann,",
+    "",
+    "Hiermit bestätigen wir, dass Sie seit dem 14.09.2026 unter der",
+    "Anschrift Beispielweg 12, 10000 Musterstadt mit alleiniger Wohnung",
+    "gemeldet sind.",
+    "Bitte bewahren Sie diese Bestätigung auf. Eine Rückmeldung ist nicht",
+    "erforderlich.",
+    "",
+    "Mit freundlichen Grüßen",
+    "Bezirksamt Musterstadt – Bürgeramt"
+  ]
+}

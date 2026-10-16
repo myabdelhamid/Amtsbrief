@@ -1,0 +1,55 @@
+{
+  "id": "fi_02",
+  "letter_type": "fine",
+  "sender": "Zentrale Bußgeldstelle Musterland",
+  "letter_date": "2026-09-25",
+  "amount": "98,50 €",
+  "reference": "3.1-447712/26",
+  "iban": "DE89 3704 0044 0532 0130 00",
+  "primary_action": "pay",
+  "actions": [
+    "pay",
+    "object"
+  ],
+  "deadlines": [
+    {
+      "applies_to": "object",
+      "kind": "relative",
+      "phrase": "innerhalb von zwei Wochen nach Zustellung",
+      "amount": 2,
+      "unit": "weeks",
+      "anchor": "receipt",
+      "expected": "2026-10-13"
+    }
+  ],
+  "note": "Payment deadline depends on 'Rechtskraft' and cannot be computed from the letter alone.",
+  "lines": [
+    "Zentrale Bußgeldstelle Musterland · Postfach 100 · 10001 Musterstadt",
+    "",
+    "Herrn Max Mustermann",
+    "Beispielweg 12",
+    "10000 Musterstadt",
+    "",
+    "Datum: 25.09.2026",
+    "Aktenzeichen: 3.1-447712/26",
+    "",
+    "Bußgeldbescheid",
+    "",
+    "Sehr geehrter Herr Mustermann,",
+    "",
+    "Ihnen wird vorgeworfen, am 03.09.2026 die zulässige",
+    "Höchstgeschwindigkeit innerorts um 18 km/h überschritten zu haben.",
+    "Geldbuße: 70,00 €",
+    "Gebühren und Auslagen: 28,50 €",
+    "Zu zahlender Gesamtbetrag: 98,50 €",
+    "Zahlung auf das Konto IBAN DE89 3704 0044 0532 0130 00.",
+    "",
+    "Rechtsbehelfsbelehrung",
+    "Gegen diesen Bescheid können Sie innerhalb von zwei Wochen nach",
+    "Zustellung Einspruch einlegen. Wird kein Einspruch eingelegt, ist",
+    "der Gesamtbetrag spätestens zwei Wochen nach Rechtskraft zu zahlen.",
+    "",
+    "Mit freundlichen Grüßen",
+    "Zentrale Bußgeldstelle Musterland"
+  ]
+}

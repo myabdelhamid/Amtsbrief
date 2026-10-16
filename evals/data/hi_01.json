@@ -1,0 +1,46 @@
+{
+  "id": "hi_01",
+  "letter_type": "health_insurance",
+  "sender": "Musterkasse Gesundheit",
+  "letter_date": "2026-10-16",
+  "amount": "156,30 €",
+  "reference": "A123456789",
+  "iban": "DE89 3704 0044 0532 0130 00",
+  "primary_action": "pay",
+  "actions": [
+    "pay"
+  ],
+  "deadlines": [
+    {
+      "applies_to": "pay",
+      "kind": "absolute",
+      "phrase": "bis zum 13.11.2026",
+      "date_text": "13.11.2026",
+      "expected": "2026-11-13"
+    }
+  ],
+  "note": null,
+  "lines": [
+    "Musterkasse Gesundheit · Gesundheitsallee 9 · 10000 Musterstadt",
+    "",
+    "Herrn Max Mustermann",
+    "Beispielweg 12",
+    "10000 Musterstadt",
+    "",
+    "Datum: 16.10.2026",
+    "Versichertennummer: A123456789",
+    "",
+    "Zahlungserinnerung – Beitragsrückstand",
+    "",
+    "Sehr geehrter Herr Mustermann,",
+    "",
+    "Für die Monate August und September 2026 sind Beiträge offen.",
+    "Offener Betrag: 156,30 €",
+    "Bitte überweisen Sie den Betrag bis zum 13.11.2026. IBAN DE89 3704",
+    "0044 0532 0130 00.",
+    "Bei Fragen erreichen Sie uns unter 0800 000 0000.",
+    "",
+    "Mit freundlichen Grüßen",
+    "Musterkasse Gesundheit"
+  ]
+}

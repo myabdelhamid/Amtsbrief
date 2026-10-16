@@ -1,0 +1,49 @@
+{
+  "id": "reg_04",
+  "letter_type": "registration",
+  "sender": "Bezirksamt Musterstadt – Ordnungsangelegenheiten",
+  "letter_date": "2026-09-28",
+  "amount": "35,00 €",
+  "reference": "OWI-2026-0815",
+  "iban": "DE89 3704 0044 0532 0130 00",
+  "primary_action": "pay",
+  "actions": [
+    "pay"
+  ],
+  "deadlines": [
+    {
+      "applies_to": "pay",
+      "kind": "relative",
+      "phrase": "innerhalb einer Woche",
+      "amount": 1,
+      "unit": "weeks",
+      "anchor": "letter_date",
+      "expected": "2026-10-05"
+    }
+  ],
+  "note": null,
+  "lines": [
+    "Bezirksamt Musterstadt · Rathausplatz 3 · 10000 Musterstadt",
+    "",
+    "Herrn Max Mustermann",
+    "Beispielweg 12",
+    "10000 Musterstadt",
+    "",
+    "Datum: 28.09.2026",
+    "Aktenzeichen: OWI-2026-0815",
+    "",
+    "Verwarnung wegen verspäteter Anmeldung",
+    "",
+    "Sehr geehrter Herr Mustermann,",
+    "",
+    "Sie haben Ihre Wohnung nicht innerhalb von zwei Wochen nach dem",
+    "Einzug angemeldet. Dies ist eine Ordnungswidrigkeit.",
+    "Wir erheben ein Verwarnungsgeld von 35,00 €.",
+    "Bitte zahlen Sie den Betrag innerhalb einer Woche nach dem Datum",
+    "dieses Schreibens auf das Konto IBAN DE89 3704 0044 0532 0130 00,",
+    "Verwendungszweck OWI-2026-0815.",
+    "",
+    "Mit freundlichen Grüßen",
+    "Bezirksamt Musterstadt – Ordnungsangelegenheiten"
+  ]
+}

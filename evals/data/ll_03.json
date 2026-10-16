@@ -1,0 +1,37 @@
+{
+  "id": "ll_03",
+  "letter_type": "landlord",
+  "sender": "Hausverwaltung Beispiel GmbH",
+  "letter_date": "2026-10-14",
+  "amount": null,
+  "reference": "M-2208",
+  "iban": null,
+  "primary_action": "none",
+  "actions": [
+    "none"
+  ],
+  "deadlines": [],
+  "note": "Contains a date that is an appointment, NOT a deadline.",
+  "lines": [
+    "Hausverwaltung Beispiel GmbH · Wohnstraße 5 · 10000 Musterstadt",
+    "",
+    "Herrn Max Mustermann",
+    "Beispielweg 12",
+    "10000 Musterstadt",
+    "",
+    "Datum: 14.10.2026",
+    "Mieternummer: M-2208",
+    "",
+    "Ankündigung: Wartung der Rauchmelder",
+    "",
+    "Sehr geehrter Herr Mustermann,",
+    "",
+    "Am 12.11.2026 zwischen 9 und 13 Uhr werden die Rauchmelder in Ihrer",
+    "Wohnung gewartet.",
+    "Bitte sorgen Sie dafür, dass die Wohnung zugänglich ist. Sie müssen",
+    "uns nicht antworten.",
+    "",
+    "Mit freundlichen Grüßen",
+    "Hausverwaltung Beispiel GmbH"
+  ]
+}

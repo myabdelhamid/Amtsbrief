@@ -1,0 +1,48 @@
+{
+  "id": "fi_03",
+  "letter_type": "fine",
+  "sender": "Zentrale Bußgeldstelle Musterland",
+  "letter_date": "2026-10-08",
+  "amount": null,
+  "reference": "3.1-451009/26",
+  "iban": null,
+  "primary_action": "reply",
+  "actions": [
+    "reply"
+  ],
+  "deadlines": [
+    {
+      "applies_to": "reply",
+      "kind": "relative",
+      "phrase": "innerhalb einer Woche nach Zugang",
+      "amount": 1,
+      "unit": "weeks",
+      "anchor": "receipt",
+      "expected": "2026-10-19"
+    }
+  ],
+  "note": null,
+  "lines": [
+    "Zentrale Bußgeldstelle Musterland · Postfach 100 · 10001 Musterstadt",
+    "",
+    "Herrn Max Mustermann",
+    "Beispielweg 12",
+    "10000 Musterstadt",
+    "",
+    "Datum: 08.10.2026",
+    "Aktenzeichen: 3.1-451009/26",
+    "",
+    "Anhörung im Bußgeldverfahren",
+    "",
+    "Sehr geehrter Herr Mustermann,",
+    "",
+    "Ihnen wird vorgeworfen, am 29.09.2026 eine rote Ampel missachtet zu",
+    "haben.",
+    "Sie haben Gelegenheit, sich zu dem Vorwurf zu äußern. Bitte senden",
+    "Sie den beiliegenden Anhörungsbogen innerhalb einer Woche nach",
+    "Zugang zurück.",
+    "",
+    "Mit freundlichen Grüßen",
+    "Zentrale Bußgeldstelle Musterland"
+  ]
+}

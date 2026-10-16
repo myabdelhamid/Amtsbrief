@@ -1,0 +1,63 @@
+{
+  "id": "tax_01",
+  "letter_type": "tax",
+  "sender": "Finanzamt Musterstadt",
+  "letter_date": "2026-10-02",
+  "amount": "412,00 €",
+  "reference": "12/345/67890",
+  "iban": "DE89 3704 0044 0532 0130 00",
+  "primary_action": "pay",
+  "actions": [
+    "pay",
+    "object"
+  ],
+  "deadlines": [
+    {
+      "applies_to": "pay",
+      "kind": "absolute",
+      "phrase": "bis zum 06.11.2026",
+      "date_text": "06.11.2026",
+      "expected": "2026-11-06"
+    },
+    {
+      "applies_to": "object",
+      "kind": "relative",
+      "phrase": "einen Monat nach Bekanntgabe",
+      "amount": 1,
+      "unit": "months",
+      "anchor": "receipt",
+      "expected": "2026-11-06"
+    }
+  ],
+  "note": null,
+  "lines": [
+    "Finanzamt Musterstadt · Steuerstraße 1 · 10000 Musterstadt",
+    "",
+    "Herrn Max Mustermann",
+    "Beispielweg 12",
+    "10000 Musterstadt",
+    "",
+    "Datum: 02.10.2026",
+    "Steuernummer: 12/345/67890",
+    "",
+    "Bescheid für 2025 über Einkommensteuer",
+    "",
+    "Sehr geehrter Herr Mustermann,",
+    "",
+    "Die Einkommensteuer wird festgesetzt auf 3.412,00 €.",
+    "Bereits gezahlt (Lohnsteuer): 3.000,00 €.",
+    "Verbleibende Nachzahlung: 412,00 €.",
+    "Bitte zahlen Sie den Betrag bis zum 06.11.2026 auf das Konto IBAN",
+    "DE89 3704 0044 0532 0130 00. Verwendungszweck: Steuernummer und „ESt",
+    "2025“.",
+    "",
+    "Rechtsbehelfsbelehrung",
+    "Gegen diesen Bescheid ist der Einspruch zulässig. Die Frist für die",
+    "Einlegung des Einspruchs beträgt einen Monat nach Bekanntgabe. Der",
+    "Bescheid gilt am vierten Tag nach Aufgabe zur Post als bekannt",
+    "gegeben.",
+    "",
+    "Mit freundlichen Grüßen",
+    "Finanzamt Musterstadt"
+  ]
+}

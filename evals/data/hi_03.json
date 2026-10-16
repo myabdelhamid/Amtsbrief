@@ -1,0 +1,36 @@
+{
+  "id": "hi_03",
+  "letter_type": "health_insurance",
+  "sender": "Musterkasse Gesundheit",
+  "letter_date": "2026-10-01",
+  "amount": null,
+  "reference": "A123456789",
+  "iban": null,
+  "primary_action": "none",
+  "actions": [
+    "none"
+  ],
+  "deadlines": [],
+  "note": null,
+  "lines": [
+    "Musterkasse Gesundheit · Gesundheitsallee 9 · 10000 Musterstadt",
+    "",
+    "Herrn Max Mustermann",
+    "Beispielweg 12",
+    "10000 Musterstadt",
+    "",
+    "Datum: 01.10.2026",
+    "Versichertennummer: A123456789",
+    "",
+    "Mitgliedsbescheinigung",
+    "",
+    "Sehr geehrter Herr Mustermann,",
+    "",
+    "Hiermit bestätigen wir, dass Sie seit dem 01.09.2026 bei der",
+    "Musterkasse Gesundheit versichert sind.",
+    "Bitte legen Sie diese Bescheinigung Ihrem Arbeitgeber vor.",
+    "",
+    "Mit freundlichen Grüßen",
+    "Musterkasse Gesundheit"
+  ]
+}

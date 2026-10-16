@@ -1,0 +1,44 @@
+{
+  "id": "reg_03",
+  "letter_type": "registration",
+  "sender": "Bezirksamt Musterstadt – Bürgeramt",
+  "letter_date": "2026-10-12",
+  "amount": null,
+  "reference": "BA-2026-05102",
+  "iban": null,
+  "primary_action": "submit_documents",
+  "actions": [
+    "submit_documents"
+  ],
+  "deadlines": [
+    {
+      "applies_to": "submit_documents",
+      "kind": "absolute",
+      "phrase": "bis zum 31.10.2026",
+      "date_text": "31.10.2026",
+      "expected": "2026-11-02"
+    }
+  ],
+  "note": null,
+  "lines": [
+    "Bezirksamt Musterstadt · Bürgeramt · Rathausplatz 3 · 10000 Musterstadt",
+    "",
+    "Herrn Max Mustermann",
+    "Beispielweg 12",
+    "10000 Musterstadt",
+    "",
+    "Datum: 12.10.2026",
+    "Vorgangsnummer: BA-2026-05102",
+    "",
+    "Antrag auf Personalausweis – Nachweis erforderlich",
+    "",
+    "Sehr geehrter Herr Mustermann,",
+    "",
+    "Für Ihren Antrag benötigen wir eine Geburtsurkunde im Original.",
+    "Bitte legen Sie die Urkunde bis zum 31.10.2026 im Bürgeramt vor.",
+    "Öffnungszeiten: Montag bis Freitag, 8 bis 14 Uhr.",
+    "",
+    "Mit freundlichen Grüßen",
+    "Bezirksamt Musterstadt – Bürgeramt"
+  ]
+}

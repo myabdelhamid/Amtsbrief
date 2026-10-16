@@ -1,0 +1,50 @@
+{
+  "id": "tax_04",
+  "letter_type": "tax",
+  "sender": "Finanzamt Musterstadt",
+  "letter_date": "2026-10-09",
+  "amount": "87,00 €",
+  "reference": "12/345/67890",
+  "iban": "DE89 3704 0044 0532 0130 00",
+  "primary_action": "pay",
+  "actions": [
+    "pay"
+  ],
+  "deadlines": [
+    {
+      "applies_to": "pay",
+      "kind": "relative",
+      "phrase": "innerhalb einer Woche",
+      "amount": 1,
+      "unit": "weeks",
+      "anchor": "letter_date",
+      "expected": "2026-10-16"
+    }
+  ],
+  "note": null,
+  "lines": [
+    "Finanzamt Musterstadt · Steuerstraße 1 · 10000 Musterstadt",
+    "",
+    "Herrn Max Mustermann",
+    "Beispielweg 12",
+    "10000 Musterstadt",
+    "",
+    "Datum: 09.10.2026",
+    "Steuernummer: 12/345/67890",
+    "",
+    "Mahnung",
+    "",
+    "Sehr geehrter Herr Mustermann,",
+    "",
+    "Folgende Beträge sind fällig und noch nicht bezahlt:",
+    "Einkommensteuer 2024: 80,00 €",
+    "Säumniszuschlag: 7,00 €",
+    "Gesamtbetrag: 87,00 €",
+    "Bitte zahlen Sie den Gesamtbetrag innerhalb einer Woche nach dem",
+    "Datum dieses Schreibens. IBAN DE89 3704 0044 0532 0130 00.",
+    "Andernfalls müssen Sie mit Vollstreckungsmaßnahmen rechnen.",
+    "",
+    "Mit freundlichen Grüßen",
+    "Finanzamt Musterstadt"
+  ]
+}

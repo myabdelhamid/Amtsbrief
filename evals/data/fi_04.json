@@ -1,0 +1,47 @@
+{
+  "id": "fi_04",
+  "letter_type": "fine",
+  "sender": "Ordnungsamt Musterstadt",
+  "letter_date": "2026-10-12",
+  "amount": "40,00 €",
+  "reference": "5512 0099 1234",
+  "iban": null,
+  "primary_action": "pay",
+  "actions": [
+    "pay"
+  ],
+  "deadlines": [
+    {
+      "applies_to": "pay",
+      "kind": "absolute",
+      "phrase": "bis zum 24.10.2026",
+      "date_text": "24.10.2026",
+      "expected": "2026-10-26"
+    }
+  ],
+  "note": "Pay action but the IBAN is not on this page: the app should flag it.",
+  "lines": [
+    "Ordnungsamt Musterstadt · Verkehrsweg 2 · 10000 Musterstadt",
+    "",
+    "Herrn Max Mustermann",
+    "Beispielweg 12",
+    "10000 Musterstadt",
+    "",
+    "Datum: 12.10.2026",
+    "Kassenzeichen: 5512 0099 1234",
+    "",
+    "Mahnung",
+    "",
+    "Sehr geehrter Herr Mustermann,",
+    "",
+    "Das Verwarnungsgeld vom 02.10.2026 wurde noch nicht bezahlt.",
+    "Verwarnungsgeld: 35,00 €",
+    "Mahngebühr: 5,00 €",
+    "Gesamtbetrag: 40,00 €",
+    "Bitte zahlen Sie den Gesamtbetrag bis zum 24.10.2026. Die",
+    "Bankverbindung finden Sie auf der Rückseite.",
+    "",
+    "Mit freundlichen Grüßen",
+    "Ordnungsamt Musterstadt"
+  ]
+}

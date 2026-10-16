@@ -1,0 +1,51 @@
+{
+  "id": "tax_02",
+  "letter_type": "tax",
+  "sender": "Finanzamt Musterstadt",
+  "letter_date": "2026-09-18",
+  "amount": "238,50 €",
+  "reference": "12/345/67890",
+  "iban": null,
+  "primary_action": "none",
+  "actions": [
+    "none"
+  ],
+  "deadlines": [
+    {
+      "applies_to": "object",
+      "kind": "relative",
+      "phrase": "einen Monat nach Bekanntgabe",
+      "amount": 1,
+      "unit": "months",
+      "anchor": "receipt",
+      "expected": "2026-10-22"
+    }
+  ],
+  "note": null,
+  "lines": [
+    "Finanzamt Musterstadt · Steuerstraße 1 · 10000 Musterstadt",
+    "",
+    "Herrn Max Mustermann",
+    "Beispielweg 12",
+    "10000 Musterstadt",
+    "",
+    "Datum: 18.09.2026",
+    "Steuernummer: 12/345/67890",
+    "",
+    "Bescheid für 2025 über Einkommensteuer",
+    "",
+    "Sehr geehrter Herr Mustermann,",
+    "",
+    "Die Einkommensteuer wird festgesetzt auf 2.761,50 €.",
+    "Bereits gezahlt (Lohnsteuer): 3.000,00 €.",
+    "Erstattung: 238,50 €. Der Betrag wird auf Ihr Konto überwiesen. Sie",
+    "müssen nichts weiter tun.",
+    "",
+    "Rechtsbehelfsbelehrung",
+    "Gegen diesen Bescheid ist der Einspruch zulässig. Die Frist für die",
+    "Einlegung des Einspruchs beträgt einen Monat nach Bekanntgabe.",
+    "",
+    "Mit freundlichen Grüßen",
+    "Finanzamt Musterstadt"
+  ]
+}

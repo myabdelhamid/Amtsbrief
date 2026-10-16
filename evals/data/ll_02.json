@@ -1,0 +1,45 @@
+{
+  "id": "ll_02",
+  "letter_type": "landlord",
+  "sender": "Hausverwaltung Beispiel GmbH",
+  "letter_date": "2026-10-20",
+  "amount": "700,00 €",
+  "reference": "M-2208",
+  "iban": null,
+  "primary_action": "reply",
+  "actions": [
+    "reply"
+  ],
+  "deadlines": [
+    {
+      "applies_to": "reply",
+      "kind": "absolute",
+      "phrase": "bis zum 31.12.2026",
+      "date_text": "31.12.2026",
+      "expected": "2026-12-31"
+    }
+  ],
+  "note": null,
+  "lines": [
+    "Hausverwaltung Beispiel GmbH · Wohnstraße 5 · 10000 Musterstadt",
+    "",
+    "Herrn Max Mustermann",
+    "Beispielweg 12",
+    "10000 Musterstadt",
+    "",
+    "Datum: 20.10.2026",
+    "Mieternummer: M-2208",
+    "",
+    "Mieterhöhungsverlangen",
+    "",
+    "Sehr geehrter Herr Mustermann,",
+    "",
+    "Wir bitten Sie, einer Erhöhung der Nettokaltmiete von 650,00 € auf",
+    "700,00 € monatlich ab dem 01.01.2027 zuzustimmen.",
+    "Bitte teilen Sie uns Ihre Zustimmung bis zum 31.12.2026 schriftlich",
+    "mit.",
+    "",
+    "Mit freundlichen Grüßen",
+    "Hausverwaltung Beispiel GmbH"
+  ]
+}

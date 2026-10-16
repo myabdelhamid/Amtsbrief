@@ -1,0 +1,47 @@
+{
+  "id": "hi_02",
+  "letter_type": "health_insurance",
+  "sender": "Musterkasse Gesundheit",
+  "letter_date": "2026-10-07",
+  "amount": null,
+  "reference": "A123456789",
+  "iban": null,
+  "primary_action": "submit_documents",
+  "actions": [
+    "submit_documents"
+  ],
+  "deadlines": [
+    {
+      "applies_to": "submit_documents",
+      "kind": "relative",
+      "phrase": "innerhalb von 14 Tagen",
+      "amount": 14,
+      "unit": "days",
+      "anchor": "letter_date",
+      "expected": "2026-10-21"
+    }
+  ],
+  "note": null,
+  "lines": [
+    "Musterkasse Gesundheit · Gesundheitsallee 9 · 10000 Musterstadt",
+    "",
+    "Herrn Max Mustermann",
+    "Beispielweg 12",
+    "10000 Musterstadt",
+    "",
+    "Datum: 07.10.2026",
+    "Versichertennummer: A123456789",
+    "",
+    "Fragebogen zur Familienversicherung",
+    "",
+    "Sehr geehrter Herr Mustermann,",
+    "",
+    "Wir prüfen regelmäßig, ob die Voraussetzungen der",
+    "Familienversicherung noch vorliegen.",
+    "Bitte senden Sie uns den beiliegenden Fragebogen innerhalb von 14",
+    "Tagen nach dem Datum dieses Schreibens ausgefüllt zurück.",
+    "",
+    "Mit freundlichen Grüßen",
+    "Musterkasse Gesundheit"
+  ]
+}

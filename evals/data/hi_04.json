@@ -1,0 +1,50 @@
+{
+  "id": "hi_04",
+  "letter_type": "health_insurance",
+  "sender": "Musterkasse Gesundheit",
+  "letter_date": "2026-09-30",
+  "amount": null,
+  "reference": "A123456789",
+  "iban": null,
+  "primary_action": "object",
+  "actions": [
+    "object"
+  ],
+  "deadlines": [
+    {
+      "applies_to": "object",
+      "kind": "relative",
+      "phrase": "innerhalb eines Monats nach Bekanntgabe",
+      "amount": 1,
+      "unit": "months",
+      "anchor": "receipt",
+      "expected": "2026-11-04"
+    }
+  ],
+  "note": null,
+  "lines": [
+    "Musterkasse Gesundheit · Gesundheitsallee 9 · 10000 Musterstadt",
+    "",
+    "Herrn Max Mustermann",
+    "Beispielweg 12",
+    "10000 Musterstadt",
+    "",
+    "Datum: 30.09.2026",
+    "Versichertennummer: A123456789",
+    "",
+    "Ihr Antrag auf Kostenübernahme",
+    "",
+    "Sehr geehrter Herr Mustermann,",
+    "",
+    "Ihren Antrag vom 02.09.2026 auf Übernahme der Kosten können wir",
+    "leider nicht bewilligen.",
+    "",
+    "Rechtsbehelfsbelehrung",
+    "Gegen diesen Bescheid können Sie innerhalb eines Monats nach",
+    "Bekanntgabe Widerspruch einlegen. Der Widerspruch ist schriftlich",
+    "einzureichen.",
+    "",
+    "Mit freundlichen Grüßen",
+    "Musterkasse Gesundheit"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "id": "reg_01",
+  "letter_type": "registration",
+  "sender": "Bezirksamt Musterstadt – Bürgeramt",
+  "letter_date": "2026-09-21",
+  "amount": null,
+  "reference": "BA-2026-04417",
+  "iban": null,
+  "primary_action": "submit_documents",
+  "actions": [
+    "submit_documents"
+  ],
+  "deadlines": [
+    {
+      "applies_to": "submit_documents",
+      "kind": "relative",
+      "phrase": "innerhalb von zwei Wochen nach Zugang",
+      "amount": 2,
+      "unit": "weeks",
+      "anchor": "receipt",
+      "expected": "2026-10-09"
+    }
+  ],
+  "note": null,
+  "lines": [
+    "Bezirksamt Musterstadt · Bürgeramt · Rathausplatz 3 · 10000 Musterstadt",
+    "",
+    "Herrn Max Mustermann",
+    "Beispielweg 12",
+    "10000 Musterstadt",
+    "",
+    "Datum: 21.09.2026",
+    "Vorgangsnummer: BA-2026-04417",
+    "",
+    "Ihre Anmeldung – fehlende Unterlagen",
+    "",
+    "Sehr geehrter Herr Mustermann,",
+    "",
+    "Bei Ihrer Anmeldung vom 14.09.2026 fehlt die",
+    "Wohnungsgeberbestätigung.",
+    "Bitte reichen Sie die Bestätigung innerhalb von zwei Wochen nach",
+    "Zugang dieses Schreibens per Post oder online nach.",
+    "Ohne die Bestätigung kann die Anmeldung nicht abgeschlossen werden.",
+    "",
+    "Mit freundlichen Grüßen",
+    "Bezirksamt Musterstadt – Bürgeramt"
+  ]
+}

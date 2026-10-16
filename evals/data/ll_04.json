@@ -1,0 +1,36 @@
+{
+  "id": "ll_04",
+  "letter_type": "landlord",
+  "sender": "Hausverwaltung Beispiel GmbH",
+  "letter_date": "2026-09-03",
+  "amount": "96,40 €",
+  "reference": "M-3317",
+  "iban": null,
+  "primary_action": "none",
+  "actions": [
+    "none"
+  ],
+  "deadlines": [],
+  "note": null,
+  "lines": [
+    "Hausverwaltung Beispiel GmbH · Wohnstraße 5 · 10000 Musterstadt",
+    "",
+    "Herrn Max Mustermann",
+    "Beispielweg 12",
+    "10000 Musterstadt",
+    "",
+    "Datum: 03.09.2026",
+    "Mieternummer: M-3317",
+    "",
+    "Betriebskostenabrechnung 2025 – Guthaben",
+    "",
+    "Sehr geehrter Herr Mustermann,",
+    "",
+    "Aus der Betriebskostenabrechnung 2025 ergibt sich ein Guthaben von",
+    "96,40 € zu Ihren Gunsten.",
+    "Das Guthaben wird Ihrem Konto in den nächsten Tagen gutgeschrieben.",
+    "",
+    "Mit freundlichen Grüßen",
+    "Hausverwaltung Beispiel GmbH"
+  ]
+}
