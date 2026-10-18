@@ -21,6 +21,7 @@
   ],
   "note": "Pay action but the IBAN is not on this page: the app should flag it.",
   "lines": [
+    "Ordnungsamt Musterstadt",
     "Ordnungsamt Musterstadt · Verkehrsweg 2 · 10000 Musterstadt",
     "",
     "Herrn Max Mustermann",
@@ -42,6 +43,7 @@
     "Bankverbindung finden Sie auf der Rückseite.",
     "",
     "Mit freundlichen Grüßen",
-    "Ordnungsamt Musterstadt"
+    "Ordnungsamt Musterstadt",
+    "Fiktives Beispiel für Testzwecke – keine echte Behörde."
   ]
 }

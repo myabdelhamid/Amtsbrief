@@ -13,6 +13,7 @@
   "deadlines": [],
   "note": null,
   "lines": [
+    "Hausverwaltung Beispiel GmbH",
     "Hausverwaltung Beispiel GmbH · Wohnstraße 5 · 10000 Musterstadt",
     "",
     "Herrn Max Mustermann",
@@ -31,6 +32,7 @@
     "Das Guthaben wird Ihrem Konto in den nächsten Tagen gutgeschrieben.",
     "",
     "Mit freundlichen Grüßen",
-    "Hausverwaltung Beispiel GmbH"
+    "Hausverwaltung Beispiel GmbH",
+    "Fiktives Beispiel für Testzwecke – keine echte Behörde."
   ]
 }

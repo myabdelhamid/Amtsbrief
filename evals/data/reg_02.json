@@ -13,6 +13,7 @@
   "deadlines": [],
   "note": null,
   "lines": [
+    "Bezirksamt Musterstadt – Bürgeramt",
     "Bezirksamt Musterstadt · Bürgeramt · Rathausplatz 3 · 10000 Musterstadt",
     "",
     "Herrn Max Mustermann",
@@ -33,6 +34,7 @@
     "erforderlich.",
     "",
     "Mit freundlichen Grüßen",
-    "Bezirksamt Musterstadt – Bürgeramt"
+    "Bezirksamt Musterstadt – Bürgeramt",
+    "Fiktives Beispiel für Testzwecke – keine echte Behörde."
   ]
 }

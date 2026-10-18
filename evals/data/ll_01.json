@@ -23,6 +23,7 @@
   ],
   "note": null,
   "lines": [
+    "Hausverwaltung Beispiel GmbH",
     "Hausverwaltung Beispiel GmbH · Wohnstraße 5 · 10000 Musterstadt",
     "",
     "Herrn Max Mustermann",
@@ -45,6 +46,7 @@
     "00.",
     "",
     "Mit freundlichen Grüßen",
-    "Hausverwaltung Beispiel GmbH"
+    "Hausverwaltung Beispiel GmbH",
+    "Fiktives Beispiel für Testzwecke – keine echte Behörde."
   ]
 }

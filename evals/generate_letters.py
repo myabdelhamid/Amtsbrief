@@ -28,6 +28,7 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 OUT = Path(__file__).parent / "data"
 FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 FONT_BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+FOOTER = "Fiktives Beispiel für Testzwecke – keine echte Behörde."
 IBAN = "DE89 3704 0044 0532 0130 00"
 RECIPIENT = ["Herrn Max Mustermann", "Beispielweg 12", "10000 Musterstadt"]
 PDF_VARIANTS = {"tax_01", "ll_01", "fi_02"}
@@ -366,7 +367,7 @@ def render_page(lt: dict) -> Image.Image:
         font = fs if i == 0 else (fb if line == lt["subject"] else f)
         d.text((MARGIN, y), line, font=font, fill=(30, 30, 30))
         y += 40 if line else 22
-    d.text((MARGIN, H - 90), "Fiktives Beispiel für Testzwecke – keine echte Behörde.",
+    d.text((MARGIN, H - 90), FOOTER,
            font=fs, fill=(130, 130, 130))
     return img
 
@@ -410,7 +411,7 @@ def digital_pdf(lt: dict, path: Path) -> None:
         c.drawString(57, y, line)
         y -= 17 if line else 9
     c.setFont("DejaVu", 8)
-    c.drawString(57, 40, "Fiktives Beispiel für Testzwecke – keine echte Behörde.")
+    c.drawString(57, 40, FOOTER)
     c.save()
 
 
@@ -428,7 +429,8 @@ def ground_truth(lt: dict) -> dict:
         "actions": lt["actions"],
         "deadlines": lt["dl"],
         "note": lt.get("note"),
-        "lines": letter_lines(lt),
+        # Everything printed on the page, in reading order: letterhead, body, footer.
+        "lines": [lt["sender"], *letter_lines(lt), FOOTER],
     }
 
 

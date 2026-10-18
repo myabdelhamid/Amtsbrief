@@ -13,6 +13,7 @@
   "deadlines": [],
   "note": null,
   "lines": [
+    "Musterkasse Gesundheit",
     "Musterkasse Gesundheit · Gesundheitsallee 9 · 10000 Musterstadt",
     "",
     "Herrn Max Mustermann",
@@ -31,6 +32,7 @@
     "Bitte legen Sie diese Bescheinigung Ihrem Arbeitgeber vor.",
     "",
     "Mit freundlichen Grüßen",
-    "Musterkasse Gesundheit"
+    "Musterkasse Gesundheit",
+    "Fiktives Beispiel für Testzwecke – keine echte Behörde."
   ]
 }

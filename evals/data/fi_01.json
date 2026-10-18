@@ -23,6 +23,7 @@
   ],
   "note": null,
   "lines": [
+    "Ordnungsamt Musterstadt",
     "Ordnungsamt Musterstadt · Verkehrsweg 2 · 10000 Musterstadt",
     "",
     "Herrn Max Mustermann",
@@ -44,6 +45,7 @@
     "0130 00.",
     "",
     "Mit freundlichen Grüßen",
-    "Ordnungsamt Musterstadt"
+    "Ordnungsamt Musterstadt",
+    "Fiktives Beispiel für Testzwecke – keine echte Behörde."
   ]
 }

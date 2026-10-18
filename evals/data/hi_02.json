@@ -23,6 +23,7 @@
   ],
   "note": null,
   "lines": [
+    "Musterkasse Gesundheit",
     "Musterkasse Gesundheit · Gesundheitsallee 9 · 10000 Musterstadt",
     "",
     "Herrn Max Mustermann",
@@ -42,6 +43,7 @@
     "Tagen nach dem Datum dieses Schreibens ausgefüllt zurück.",
     "",
     "Mit freundlichen Grüßen",
-    "Musterkasse Gesundheit"
+    "Musterkasse Gesundheit",
+    "Fiktives Beispiel für Testzwecke – keine echte Behörde."
   ]
 }

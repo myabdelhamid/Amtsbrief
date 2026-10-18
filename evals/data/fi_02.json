@@ -24,6 +24,7 @@
   ],
   "note": "Payment deadline depends on 'Rechtskraft' and cannot be computed from the letter alone.",
   "lines": [
+    "Zentrale Bußgeldstelle Musterland",
     "Zentrale Bußgeldstelle Musterland · Postfach 100 · 10001 Musterstadt",
     "",
     "Herrn Max Mustermann",
@@ -50,6 +51,7 @@
     "der Gesamtbetrag spätestens zwei Wochen nach Rechtskraft zu zahlen.",
     "",
     "Mit freundlichen Grüßen",
-    "Zentrale Bußgeldstelle Musterland"
+    "Zentrale Bußgeldstelle Musterland",
+    "Fiktives Beispiel für Testzwecke – keine echte Behörde."
   ]
 }

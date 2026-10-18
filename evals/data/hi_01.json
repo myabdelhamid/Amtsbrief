@@ -21,6 +21,7 @@
   ],
   "note": null,
   "lines": [
+    "Musterkasse Gesundheit",
     "Musterkasse Gesundheit · Gesundheitsallee 9 · 10000 Musterstadt",
     "",
     "Herrn Max Mustermann",
@@ -41,6 +42,7 @@
     "Bei Fragen erreichen Sie uns unter 0800 000 0000.",
     "",
     "Mit freundlichen Grüßen",
-    "Musterkasse Gesundheit"
+    "Musterkasse Gesundheit",
+    "Fiktives Beispiel für Testzwecke – keine echte Behörde."
   ]
 }
