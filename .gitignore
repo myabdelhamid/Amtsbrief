@@ -3,4 +3,5 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .venv/
-.DS_Store CLAUDE.md
+.DS_Store
+CLAUDE.md
