@@ -1,3 +1,5 @@
+import json
+import time
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -9,6 +11,7 @@ client = genai.Client()
 
 MODEL = "gemini-3.8-flash"
 DATA_DIR = Path("evals/data") 
+RESULTS_DIR = Path("evals/results")
 
 TRANSCRIBE_PROMPT = """
 You're given a photo of a German letter. Follow these rules exactly:
@@ -66,7 +69,7 @@ def transcribe(image_bytes: bytes) -> str:
         model=MODEL,
         contents=[TRANSCRIBE_PROMPT, image_part],
     )
-    return response.text 
+    return response.text
 
 
 def parse_lines(text: str) -> list[str]:
@@ -84,9 +87,29 @@ def parse_lines(text: str) -> list[str]:
     return lines
 
 
-results = {}
-for path in sorted(DATA_DIR.glob("*.jpg")):
-    image_bytes = path.read_bytes()
-    raw_text = transcribe(image_bytes)
-    results[path.stem] = parse_lines(raw_text)
-    print(f"{path.stem}: {len(results[path.stem])} lines")
+def load_ground_truth(stem: str) -> list[str]:
+    """Return the non-empty reference lines from evals/data/<stem>.json."""
+    path = DATA_DIR / f"{stem}.json"
+    data = json.loads(path.read_text())
+    return [line for line in data["lines"] if line != ""]
+
+
+if __name__ == "__main__":
+    images = sorted(DATA_DIR.glob("*.jpg"))
+    if not images:
+        raise FileNotFoundError(
+            f"No .jpg files in {DATA_DIR.resolve()}. Run this script from the project root."
+        )
+    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+    results = {}
+    for path in images:
+        cache_path = RESULTS_DIR / f"{path.stem}.txt"
+        if cache_path.exists():
+            raw_text = cache_path.read_text()
+        else:
+            print(f"{path.stem}: calling model...")
+            raw_text = transcribe(path.read_bytes())
+            cache_path.write_text(raw_text)
+            time.sleep(5)
+        results[path.stem] = parse_lines(raw_text)
+        print(f"{path.stem}: {len(results[path.stem])} lines")
