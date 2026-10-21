@@ -100,6 +100,3 @@ def resolve(raw: RawDeadline, letter_date: date) -> ResolvedDeadline:
         steps.append(f"Falls on a weekend, moves to {_fmt(shifted)}")
 
     return ResolvedDeadline(date=shifted, applies_to=raw.applies_to, steps=steps, lines=raw.lines)
-        
-
-    raise NotImplementedError
