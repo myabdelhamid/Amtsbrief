@@ -94,6 +94,31 @@ def load_ground_truth(stem: str) -> list[str]:
     return [line for line in data["lines"] if line != ""]
 
 
+def normalize(line: str) -> str:
+    """Make formatting-only differences equal: en dash becomes hyphen."""
+    return line.replace("–", "-")
+
+
+def score_letter(predicted: list[str], expected: list[str]) -> tuple[int, int, int]:
+    """Return (exact matches, normalized matches, total), where total is the longer list's length."""
+    exact = 0
+    normalized = 0
+    for got, want in zip(predicted, expected):
+        if got == want:
+            exact += 1
+        if normalize(got) == normalize(want):
+            normalized += 1
+    total = max(len(predicted), len(expected))
+    return exact, normalized, total
+
+
+def percent(part: int, whole: int) -> float:
+    """part / whole as a percentage, 0.0 when whole is 0."""
+    if whole == 0:
+        return 0.0
+    return part / whole * 100
+
+
 if __name__ == "__main__":
     images = sorted(DATA_DIR.glob("*.jpg"))
     if not images:
@@ -102,6 +127,7 @@ if __name__ == "__main__":
         )
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     results = {}
+    total_exact = total_normalized = total_total = 0
     for path in images:
         cache_path = RESULTS_DIR / f"{path.stem}.txt"
         if cache_path.exists():
@@ -112,4 +138,15 @@ if __name__ == "__main__":
             cache_path.write_text(raw_text)
             time.sleep(5)
         results[path.stem] = parse_lines(raw_text)
-        print(f"{path.stem}: {len(results[path.stem])} lines")
+        exact, normalized, total = score_letter(results[path.stem], load_ground_truth(path.stem))
+        print(
+            f"{path.stem}: exact {exact}/{total} ({percent(exact, total):.1f}%), "
+            f"normalized {normalized}/{total} ({percent(normalized, total):.1f}%)"
+        )
+        total_exact += exact
+        total_normalized += normalized
+        total_total += total
+    print(
+        f"overall: exact {total_exact}/{total_total} ({percent(total_exact, total_total):.1f}%), "
+        f"normalized {total_normalized}/{total_total} ({percent(total_normalized, total_total):.1f}%)"
+    )
