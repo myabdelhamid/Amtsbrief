@@ -1,4 +1,5 @@
 import json
+import re
 import time
 from pathlib import Path
 
@@ -12,6 +13,7 @@ client = genai.Client()
 MODEL = "gemini-3.8-flash"
 DATA_DIR = Path("evals/data") 
 RESULTS_DIR = Path("evals/results")
+LINE_PREFIX = re.compile(r"^L\d+:\s*")
 
 TRANSCRIBE_PROMPT = """
 You're given a photo of a German letter. Follow these rules exactly:
@@ -73,17 +75,12 @@ def transcribe(image_bytes: bytes) -> str:
 
 
 def parse_lines(text: str) -> list[str]:
-    """'L1: Foo\\nL2: Bar' -> ['Foo', 'Bar']"""
-    lines = []  
+    """'L1: Foo\\nL2: Bar' -> ['Foo', 'Bar']. Lines that are empty after the prefix are dropped."""
+    lines = []
     for raw in text.splitlines():
-        raw = raw.strip()
-        if not raw:
-            continue
-        parts = raw.split(": ", 1)
-        if len(parts) == 2:
-            lines.append(parts[1].strip())
-        else:
-            lines.append(raw)
+        line = LINE_PREFIX.sub("", raw.strip())
+        if line:
+            lines.append(line)
     return lines
 
 
