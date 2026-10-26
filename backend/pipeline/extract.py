@@ -42,7 +42,7 @@ EXTRACT_PROMPT = """
     "nach Bekanntgabe / Zugang / Zustellung" means anchor = "receipt"
     An appointment date (Termin) is not a deadline
     Leave amount, reference and iban empty when the letter doesn't contain them
-    Summaries and explanation claims are short, for a non-German speaker use plain English
+    Summaries and explanation claims are short, plain English, for a non-German speaker
 """
 
 

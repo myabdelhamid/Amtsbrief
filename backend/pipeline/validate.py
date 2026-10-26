@@ -152,6 +152,10 @@ def validate(extraction: Extraction, transcript: Transcript) -> ValidatedResult:
                 issues.append(Issue(field=f"{name}[{i}]", problem=f"cites missing lines {missing}"))
 
     resolved = []
+    actions_to_take = set()
+    for action in extraction.actions:
+        actions_to_take.add(action.kind)
+    
     for i, raw in enumerate(extraction.deadlines):
         if letter_date is None:
             issues.append(Issue(field=f"deadlines[{i}]", problem="letter date unknown, can't compute the deadline"))
@@ -160,5 +164,7 @@ def validate(extraction: Extraction, transcript: Transcript) -> ValidatedResult:
             resolved.append(resolve(raw, letter_date))
         except ValueError as error:
             issues.append(Issue(field=f"deadlines[{i}]", problem=str(error)))
+        if raw.applies_to not in actions_to_take:
+            issues.append(Issue(field=f"deadlines[{i}]", problem=f"applies to {raw.applies_to.value}, but there is no {raw.applies_to.value} action"))
 
     return ValidatedResult(extraction=extraction, deadlines=resolved, unsure=issues)

@@ -49,7 +49,7 @@ class Action(BaseModel):
     kind: ActionKind = Field(description=(
         "Anything the letter asks you to do or allows you to do: required steps (pay, "
         "send documents, reply) and optional rights (an objection / Einspruch / Widerspruch). "
-        "Use 'none' only if the letter neither asks for nor offers anything."))
+        "Add 'none' when nothing is required, also next to optional rights, so the user sees both: 'nothing is required' and 'you may object'. Every deadline needs a matching action."))
     summary: str = Field(description="One plain-English sentence")
     lines: list[LineId] = Field(min_length=1)
 
