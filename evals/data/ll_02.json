@@ -3,7 +3,7 @@
   "letter_type": "landlord",
   "sender": "Hausverwaltung Beispiel GmbH",
   "letter_date": "2026-10-20",
-  "amount": "700,00 €",
+  "amount": null,
   "reference": "M-2208",
   "iban": null,
   "primary_action": "reply",

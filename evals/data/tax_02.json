@@ -8,7 +8,7 @@
   "iban": null,
   "primary_action": "none",
   "actions": [
-    "none"
+    "object"
   ],
   "deadlines": [
     {

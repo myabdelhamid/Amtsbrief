@@ -46,7 +46,10 @@ class ActionKind(str, Enum):
 
 
 class Action(BaseModel):
-    kind: ActionKind
+    kind: ActionKind = Field(description=(
+        "Anything the letter asks you to do or allows you to do: required steps (pay, "
+        "send documents, reply) and optional rights (an objection / Einspruch / Widerspruch). "
+        "Use 'none' only if the letter neither asks for nor offers anything."))
     summary: str = Field(description="One plain-English sentence")
     lines: list[LineId] = Field(min_length=1)
 
@@ -70,10 +73,15 @@ class Claim(BaseModel):
 
 
 class Extraction(BaseModel):
-    letter_type: LetterType
+    letter_type: LetterType = Field(description=(
+        "What the letter is, not who sent it: a Verwarnungsgeld or Bußgeld is 'fine' even "
+        "when the Bürgeramt or Bezirksamt sends it."))
     sender: Cited
     letter_date: Cited
-    amount: Cited | None = None
+    amount: Cited | None = Field(None, description=(
+        "Money that changes hands because of this letter: what you must pay, or what you "
+        "will receive (a refund, a credit). Empty for amounts that are only mentioned, "
+        "such as a future rent you are asked to agree to."))
     reference: Cited | None = None
     iban: Cited | None = None
     actions: list[Action]
