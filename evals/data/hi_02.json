@@ -6,13 +6,13 @@
   "amount": null,
   "reference": "A123456789",
   "iban": null,
-  "primary_action": "submit_documents",
+  "primary_action": "reply",
   "actions": [
-    "submit_documents"
+    "reply"
   ],
   "deadlines": [
     {
-      "applies_to": "submit_documents",
+      "applies_to": "reply",
       "kind": "relative",
       "phrase": "innerhalb von 14 Tagen",
       "amount": 14,

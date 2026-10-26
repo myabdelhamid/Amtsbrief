@@ -40,16 +40,19 @@ class LetterType(str, Enum):
 class ActionKind(str, Enum):
     pay = "pay"
     object = "object"
-    submit_documents = "submit_documents"
-    reply = "reply"
+    reply = "reply"  # any answer the letter asks for: a written reply, a form, documents
     none = "none"
 
 
 class Action(BaseModel):
     kind: ActionKind = Field(description=(
         "Anything the letter asks you to do or allows you to do: required steps (pay, "
-        "send documents, reply) and optional rights (an objection / Einspruch / Widerspruch). "
-        "Add 'none' when nothing is required, also next to optional rights, so the user sees both: 'nothing is required' and 'you may object'. Every deadline needs a matching action."))
+        "reply) and optional rights (an objection / Einspruch / Widerspruch). "
+        "'reply' covers every answer the letter asks for: a written reply, consent, a filled-in "
+        "form or questionnaire, documents or proof. "
+        "Add 'none' when nothing is required, also next to optional rights, so the user sees "
+        "both: 'nothing is required' and 'you may object'. "
+        "Every deadline needs a matching action."))
     summary: str = Field(description="One plain-English sentence")
     lines: list[LineId] = Field(min_length=1)
 

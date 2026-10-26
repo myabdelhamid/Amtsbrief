@@ -6,9 +6,9 @@
   "amount": null,
   "reference": "A123456789",
   "iban": null,
-  "primary_action": "submit_documents",
+  "primary_action": "reply",
   "actions": [
-    "submit_documents"
+    "reply"
   ],
   "deadlines": [],
   "note": null,

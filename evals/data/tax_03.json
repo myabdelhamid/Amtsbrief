@@ -6,13 +6,13 @@
   "amount": null,
   "reference": "12/345/67890",
   "iban": null,
-  "primary_action": "submit_documents",
+  "primary_action": "reply",
   "actions": [
-    "submit_documents"
+    "reply"
   ],
   "deadlines": [
     {
-      "applies_to": "submit_documents",
+      "applies_to": "reply",
       "kind": "absolute",
       "phrase": "bis zum 30.11.2026",
       "date_text": "30.11.2026",
