@@ -189,8 +189,8 @@ def test_unparseable_letter_date_blocks_deadlines():
 
 
 def test_deadline_without_matching_action_is_an_issue_but_kept():
-    objection = RawDeadline(phrase="innerhalb einer Woche", kind="relative", amount=1, unit="weeks",
-                            anchor="letter_date", applies_to="object", lines=["P1-L4"])
-    result = validate.validate(extraction(deadlines=[objection]), TRANSCRIPT)
+    reply_deadline = RawDeadline(phrase="innerhalb einer Woche", kind="relative", amount=1, unit="weeks",
+                                 anchor="letter_date", applies_to="reply", lines=["P1-L4"])
+    result = validate.validate(extraction(deadlines=[reply_deadline]), TRANSCRIPT)
     assert fields_with_issues(result) == ["deadlines[0]"]
     assert [d.date for d in result.deadlines] == [date(2026, 10, 9)]

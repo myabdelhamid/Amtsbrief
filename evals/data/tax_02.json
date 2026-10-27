@@ -8,11 +8,11 @@
   "iban": null,
   "primary_action": "none",
   "actions": [
-    "object"
+    "reply"
   ],
   "deadlines": [
     {
-      "applies_to": "object",
+      "applies_to": "reply",
       "kind": "relative",
       "phrase": "einen Monat nach Bekanntgabe",
       "amount": 1,

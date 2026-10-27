@@ -9,7 +9,7 @@
   "primary_action": "pay",
   "actions": [
     "pay",
-    "object"
+    "reply"
   ],
   "deadlines": [
     {
@@ -20,7 +20,7 @@
       "expected": "2026-11-06"
     },
     {
-      "applies_to": "object",
+      "applies_to": "reply",
       "kind": "relative",
       "phrase": "einen Monat nach Bekanntgabe",
       "amount": 1,

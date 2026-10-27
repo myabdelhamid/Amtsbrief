@@ -6,13 +6,13 @@
   "amount": null,
   "reference": "A123456789",
   "iban": null,
-  "primary_action": "object",
+  "primary_action": "reply",
   "actions": [
-    "object"
+    "reply"
   ],
   "deadlines": [
     {
-      "applies_to": "object",
+      "applies_to": "reply",
       "kind": "relative",
       "phrase": "innerhalb eines Monats nach Bekanntgabe",
       "amount": 1,

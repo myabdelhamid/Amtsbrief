@@ -39,17 +39,17 @@ class LetterType(str, Enum):
 
 class ActionKind(str, Enum):
     pay = "pay"
-    object = "object"
-    reply = "reply"  # any answer the letter asks for: a written reply, a form, documents
+    reply = "reply"  # any answer or step: a written reply, an objection, a form, an office visit
     none = "none"
 
 
 class Action(BaseModel):
     kind: ActionKind = Field(description=(
         "Anything the letter asks you to do or allows you to do: required steps (pay, "
-        "reply) and optional rights (an objection / Einspruch / Widerspruch). "
-        "'reply' covers every answer the letter asks for: a written reply, consent, a filled-in "
-        "form or questionnaire, documents or proof. "
+        "reply) and optional rights. "
+        "'reply' covers every answer or step the letter asks for or allows: a written reply, "
+        "consent, an objection (Einspruch / Widerspruch), a filled-in form or questionnaire, "
+        "documents or proof, going to an office in person, or ending a contract. "
         "Add 'none' when nothing is required, also next to optional rights, so the user sees "
         "both: 'nothing is required' and 'you may object'. "
         "Every deadline needs a matching action."))

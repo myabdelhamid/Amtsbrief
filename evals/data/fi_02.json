@@ -9,11 +9,11 @@
   "primary_action": "pay",
   "actions": [
     "pay",
-    "object"
+    "reply"
   ],
   "deadlines": [
     {
-      "applies_to": "object",
+      "applies_to": "reply",
       "kind": "relative",
       "phrase": "innerhalb von zwei Wochen nach Zustellung",
       "amount": 2,
