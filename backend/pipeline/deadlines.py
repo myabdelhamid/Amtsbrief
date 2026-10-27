@@ -8,7 +8,10 @@ Rules encoded here (German administrative and tax letters):
 - Letters sent by post count as received ("bekannt gegeben") on the 4th day
   after posting. We use the letter date as the posting date.
 - A deadline that ends on a Saturday or Sunday moves to the next working day.
+  Appointments don't move: they happen on the stated day.
   Public holidays are not handled yet.
+- A period counted from an event the letter doesn't date (anchor "other", e.g.
+  "nach Rechtskraft") can't be computed, so resolve() raises ValueError.
 """
 from __future__ import annotations
 
@@ -86,6 +89,8 @@ def resolve(raw: RawDeadline, letter_date: date) -> ResolvedDeadline:
     else:
         if raw.amount is None or raw.unit is None or raw.anchor is None:
             raise ValueError("relative deadline needs amount, unit and anchor")
+        if raw.anchor == "other":
+            raise ValueError(f"counted from an event the letter doesn't date: {raw.phrase!r}")
         start = letter_date
         steps.append(f"Dated {_fmt(letter_date)}")
         if raw.anchor == "receipt":
@@ -95,9 +100,11 @@ def resolve(raw: RawDeadline, letter_date: date) -> ResolvedDeadline:
         label = raw.unit[:-1] if raw.amount == 1 else raw.unit
         steps.append(f"+{raw.amount} {label} = {_fmt(due)}")
 
-    shifted = next_working_day(due)
-    if shifted != due:
-        steps.append(f"Falls on a weekend, moves to {_fmt(shifted)}")
+    shifted = due
+    if raw.purpose != "appointment":
+        shifted = next_working_day(due)
+        if shifted != due:
+            steps.append(f"Falls on a weekend, moves to {_fmt(shifted)}")
 
-    return ResolvedDeadline(date=shifted, summary=raw.summary, is_payment=raw.is_payment,
+    return ResolvedDeadline(date=shifted, summary=raw.summary, purpose=raw.purpose,
                             steps=steps, lines=raw.lines)

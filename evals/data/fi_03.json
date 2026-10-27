@@ -14,7 +14,7 @@
       "unit": "weeks",
       "anchor": "receipt",
       "expected": "2026-10-19",
-      "is_payment": false
+      "purpose": "other"
     }
   ],
   "note": null,

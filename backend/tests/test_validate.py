@@ -137,7 +137,7 @@ def extraction(**overrides) -> Extraction:
         reference=Cited(value="5512 0099 1234", quote="Aktenzeichen: 5512 0099 1234", lines=["P1-L3"]),
         iban=Cited(value="DE89 3704 0044 0532 0130 00", quote="IBAN: DE89 3704 0044 0532 0130 00", lines=["P1-L5"]),
         deadlines=[RawDeadline(phrase="innerhalb einer Woche", kind="relative", amount=1, unit="weeks",
-                               anchor="letter_date", summary="Pay the 35,00 € fine.", is_payment=True,
+                               anchor="letter_date", summary="Pay the 35,00 € fine.", purpose="payment",
                                lines=["P1-L4"])],
         explanation=[Claim(text="You were fined 35 euros.", lines=["P1-L4"])],
     )
@@ -174,7 +174,7 @@ def test_explanation_citing_missing_line_is_an_issue():
 
 def test_deadline_that_cannot_be_resolved_is_left_out():
     broken = RawDeadline(phrase="innerhalb einer Woche", kind="relative", amount=1,
-                         summary="Pay the fine.", is_payment=True, lines=["P1-L4"])
+                         summary="Pay the fine.", purpose="payment", lines=["P1-L4"])
     result = validate.validate(extraction(deadlines=[broken]), TRANSCRIPT)
     assert fields_with_issues(result) == ["deadlines[0]"]
     assert result.deadlines == []
@@ -188,7 +188,15 @@ def test_unparseable_letter_date_blocks_deadlines():
     assert result.deadlines == []
 
 
-def test_resolved_deadline_keeps_summary_and_payment_flag():
+def test_resolved_deadline_keeps_summary_and_purpose():
     [deadline] = validate.validate(extraction(), TRANSCRIPT).deadlines
     assert deadline.summary == "Pay the 35,00 € fine."
-    assert deadline.is_payment is True
+    assert deadline.purpose == "payment"
+
+
+def test_deadline_counted_from_an_undated_event_is_an_issue():
+    after_final = RawDeadline(phrase="zwei Wochen nach Rechtskraft", kind="relative", amount=2, unit="weeks",
+                              anchor="other", summary="Pay the fine.", purpose="payment", lines=["P1-L4"])
+    result = validate.validate(extraction(deadlines=[after_final]), TRANSCRIPT)
+    assert fields_with_issues(result) == ["deadlines[0]"]
+    assert result.deadlines == []

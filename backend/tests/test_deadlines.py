@@ -57,7 +57,8 @@ def test_weekend_moves_to_monday():
 # ---------- 4. resolve ----------
 
 def raw(**kw) -> RawDeadline:
-    return RawDeadline(phrase="x", summary="x", is_payment=False, lines=["P1-L1"], **kw)
+    kw.setdefault("purpose", "other")
+    return RawDeadline(phrase="x", summary="x", lines=["P1-L1"], **kw)
 
 
 def test_relative_deadline_counts_from_deemed_receipt():
@@ -81,3 +82,14 @@ def test_absolute_deadline_on_weekend_is_shifted():
 def test_relative_deadline_missing_fields_is_rejected():
     with pytest.raises(ValueError):
         deadlines.resolve(raw(kind="relative", amount=1), date(2026, 10, 2))
+
+
+def test_relative_deadline_from_undated_event_is_rejected():
+    with pytest.raises(ValueError):
+        deadlines.resolve(raw(kind="relative", amount=2, unit="weeks", anchor="other"), date(2026, 10, 2))
+
+
+def test_appointment_on_weekend_is_not_shifted():
+    d = deadlines.resolve(raw(kind="absolute", date_text="07.11.2026", purpose="appointment"), date(2026, 10, 1))
+    assert d.date == date(2026, 11, 7)
+    assert d.steps == ["Stated in letter: 7 Nov"]

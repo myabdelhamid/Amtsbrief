@@ -14,7 +14,7 @@
       "unit": "weeks",
       "anchor": "letter_date",
       "expected": "2026-10-05",
-      "is_payment": true
+      "purpose": "payment"
     }
   ],
   "note": null,

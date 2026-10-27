@@ -44,12 +44,19 @@ class RawDeadline(BaseModel):
     date_text: str | None = Field(None, description="For absolute deadlines: the date as written, e.g. '06.11.2026'")
     amount: int | None = Field(None, description="For relative deadlines: e.g. 1")
     unit: Literal["days", "weeks", "months"] | None = None
-    anchor: Literal["letter_date", "receipt"] | None = Field(
-        None, description="'receipt' when the letter says nach Bekanntgabe / Zugang / Zustellung")
+    anchor: Literal["letter_date", "receipt", "other"] | None = Field(None, description=(
+        "For relative deadlines, what the period counts from: 'receipt' for nach Bekanntgabe / "
+        "Zugang / Zustellung / Erhalt; 'letter_date' for nach dem Datum dieses Schreibens; "
+        "'other' for an event the letter doesn't date, e.g. nach Rechtskraft or nach "
+        "Zahlungseingang. Never pick 'receipt' or 'letter_date' when the letter counts from "
+        "something else."))
     summary: str = Field(description=(
         "One plain-English sentence saying what is due by this deadline, for a reminder, "
         "e.g. 'Pay the 317,40 € payment reminder.' or 'The period to object ends.'"))
-    is_payment: bool = Field(description="True only if money must be paid by this deadline")
+    purpose: Literal["payment", "objection", "appointment", "other"] = Field(description=(
+        "'payment' if money must be paid by this date; 'objection' if it ends the period to "
+        "object (Einspruch / Widerspruch); 'appointment' for a date the user must be present "
+        "or available (a Termin, a visit); 'other' for everything else."))
     lines: list[LineId] = Field(min_length=1)
 
 
@@ -79,7 +86,7 @@ class Extraction(BaseModel):
 class ResolvedDeadline(BaseModel):
     date: date
     summary: str
-    is_payment: bool
+    purpose: Literal["payment", "objection", "appointment", "other"]
     steps: list[str] = Field(description="Human-readable calculation, shown in the UI")
     lines: list[LineId]
 

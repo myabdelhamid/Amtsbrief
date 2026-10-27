@@ -40,10 +40,11 @@ EXTRACT_PROMPT = """
     Every `quote` is copied verbatim from the cited lines, and every `lines` list uses the IDs exactly as given ("P1-L4"), never invent them.
     You must NOT compute deadline dates: fill RawDeadline from the wording only (absolute: date_text; relative: amount, unit, anchor)
     "nach Bekanntgabe / Zugang / Zustellung" means anchor = "receipt"
-    An appointment date (Termin) is not a deadline
+    An appointment (Termin, a visit) goes in deadlines with purpose "appointment" and the date as written
+    If a period counts from an event the letter doesn't date (e.g. nach Rechtskraft), use anchor "other"
     Leave amount, reference and iban empty when the letter doesn't contain them
     Summaries and explanation claims are short, plain English, for a non-German speaker
-    Each deadline's summary says in one sentence what is due by then; set is_payment only when money must be paid by it
+    Each deadline's summary says in one sentence what is due by then, for a reminder
 """
 
 

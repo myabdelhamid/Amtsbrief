@@ -6,8 +6,16 @@
   "amount": null,
   "reference": "M-2208",
   "iban": null,
-  "deadlines": [],
-  "note": "Contains a date that is an appointment, NOT a deadline.",
+  "deadlines": [
+    {
+      "kind": "absolute",
+      "phrase": "Am 12.11.2026",
+      "date_text": "12.11.2026",
+      "expected": "2026-11-12",
+      "purpose": "appointment"
+    }
+  ],
+  "note": "The date is an appointment (smoke-detector maintenance), not a payment or objection deadline: purpose \"appointment\".",
   "lines": [
     "Hausverwaltung Beispiel GmbH",
     "Hausverwaltung Beispiel GmbH · Wohnstraße 5 · 10000 Musterstadt",
