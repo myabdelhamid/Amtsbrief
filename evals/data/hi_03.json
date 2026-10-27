@@ -6,10 +6,6 @@
   "amount": null,
   "reference": "A123456789",
   "iban": null,
-  "primary_action": "reply",
-  "actions": [
-    "reply"
-  ],
   "deadlines": [],
   "note": null,
   "lines": [

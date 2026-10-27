@@ -6,17 +6,13 @@
   "amount": null,
   "reference": "BA-2026-05102",
   "iban": null,
-  "primary_action": "reply",
-  "actions": [
-    "reply"
-  ],
   "deadlines": [
     {
-      "applies_to": "reply",
       "kind": "absolute",
       "phrase": "bis zum 31.10.2026",
       "date_text": "31.10.2026",
-      "expected": "2026-11-02"
+      "expected": "2026-11-02",
+      "is_payment": false
     }
   ],
   "note": null,

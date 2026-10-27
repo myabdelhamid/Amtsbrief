@@ -37,26 +37,6 @@ class LetterType(str, Enum):
     other = "other"
 
 
-class ActionKind(str, Enum):
-    pay = "pay"
-    reply = "reply"  # any answer or step: a written reply, an objection, a form, an office visit
-    none = "none"
-
-
-class Action(BaseModel):
-    kind: ActionKind = Field(description=(
-        "Anything the letter asks you to do or allows you to do: required steps (pay, "
-        "reply) and optional rights. "
-        "'reply' covers every answer or step the letter asks for or allows: a written reply, "
-        "consent, an objection (Einspruch / Widerspruch), a filled-in form or questionnaire, "
-        "documents or proof, going to an office in person, or ending a contract. "
-        "Add 'none' when nothing is required, also next to optional rights, so the user sees "
-        "both: 'nothing is required' and 'you may object'. "
-        "Every deadline needs a matching action."))
-    summary: str = Field(description="One plain-English sentence")
-    lines: list[LineId] = Field(min_length=1)
-
-
 class RawDeadline(BaseModel):
     """The deadline exactly as the letter phrases it. The LLM does NO date math."""
     phrase: str = Field(description="Verbatim wording, e.g. 'innerhalb eines Monats nach Bekanntgabe'")
@@ -66,7 +46,10 @@ class RawDeadline(BaseModel):
     unit: Literal["days", "weeks", "months"] | None = None
     anchor: Literal["letter_date", "receipt"] | None = Field(
         None, description="'receipt' when the letter says nach Bekanntgabe / Zugang / Zustellung")
-    applies_to: ActionKind
+    summary: str = Field(description=(
+        "One plain-English sentence saying what is due by this deadline, for a reminder, "
+        "e.g. 'Pay the 317,40 € payment reminder.' or 'The period to object ends.'"))
+    is_payment: bool = Field(description="True only if money must be paid by this deadline")
     lines: list[LineId] = Field(min_length=1)
 
 
@@ -87,7 +70,6 @@ class Extraction(BaseModel):
         "such as a future rent you are asked to agree to."))
     reference: Cited | None = None
     iban: Cited | None = None
-    actions: list[Action]
     deadlines: list[RawDeadline]
     explanation: list[Claim]
 
@@ -96,7 +78,8 @@ class Extraction(BaseModel):
 
 class ResolvedDeadline(BaseModel):
     date: date
-    applies_to: ActionKind
+    summary: str
+    is_payment: bool
     steps: list[str] = Field(description="Human-readable calculation, shown in the UI")
     lines: list[LineId]
 

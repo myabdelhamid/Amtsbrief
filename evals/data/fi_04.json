@@ -6,17 +6,13 @@
   "amount": "40,00 €",
   "reference": "5512 0099 1234",
   "iban": null,
-  "primary_action": "pay",
-  "actions": [
-    "pay"
-  ],
   "deadlines": [
     {
-      "applies_to": "pay",
       "kind": "absolute",
       "phrase": "bis zum 24.10.2026",
       "date_text": "24.10.2026",
-      "expected": "2026-10-26"
+      "expected": "2026-10-26",
+      "is_payment": true
     }
   ],
   "note": "Pay action but the IBAN is not on this page: the app should flag it.",

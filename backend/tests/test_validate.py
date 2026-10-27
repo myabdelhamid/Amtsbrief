@@ -9,7 +9,7 @@ from decimal import Decimal
 import pytest
 
 from pipeline import validate
-from pipeline.schemas import Action, Cited, Claim, Extraction, RawDeadline, Transcript
+from pipeline.schemas import Cited, Claim, Extraction, RawDeadline, Transcript
 
 
 # ---------- 1. parse_german_amount ----------
@@ -136,9 +136,9 @@ def extraction(**overrides) -> Extraction:
         amount=Cited(value="35,00 €", quote="zahlen Sie 35,00 €", lines=["P1-L4"]),
         reference=Cited(value="5512 0099 1234", quote="Aktenzeichen: 5512 0099 1234", lines=["P1-L3"]),
         iban=Cited(value="DE89 3704 0044 0532 0130 00", quote="IBAN: DE89 3704 0044 0532 0130 00", lines=["P1-L5"]),
-        actions=[Action(kind="pay", summary="Pay the fine.", lines=["P1-L4"])],
         deadlines=[RawDeadline(phrase="innerhalb einer Woche", kind="relative", amount=1, unit="weeks",
-                               anchor="letter_date", applies_to="pay", lines=["P1-L4"])],
+                               anchor="letter_date", summary="Pay the 35,00 € fine.", is_payment=True,
+                               lines=["P1-L4"])],
         explanation=[Claim(text="You were fined 35 euros.", lines=["P1-L4"])],
     )
     fields.update(overrides)
@@ -166,15 +166,15 @@ def test_letter_without_iban_is_fine():
     assert result.unsure == []
 
 
-def test_action_citing_missing_line_is_an_issue():
-    action = Action(kind="pay", summary="Pay the fine.", lines=["P3-L1"])
-    result = validate.validate(extraction(actions=[action]), TRANSCRIPT)
-    assert fields_with_issues(result) == ["actions[0]"]
+def test_explanation_citing_missing_line_is_an_issue():
+    claim = Claim(text="You were fined 35 euros.", lines=["P3-L1"])
+    result = validate.validate(extraction(explanation=[claim]), TRANSCRIPT)
+    assert fields_with_issues(result) == ["explanation[0]"]
 
 
 def test_deadline_that_cannot_be_resolved_is_left_out():
     broken = RawDeadline(phrase="innerhalb einer Woche", kind="relative", amount=1,
-                         applies_to="pay", lines=["P1-L4"])
+                         summary="Pay the fine.", is_payment=True, lines=["P1-L4"])
     result = validate.validate(extraction(deadlines=[broken]), TRANSCRIPT)
     assert fields_with_issues(result) == ["deadlines[0]"]
     assert result.deadlines == []
@@ -188,9 +188,7 @@ def test_unparseable_letter_date_blocks_deadlines():
     assert result.deadlines == []
 
 
-def test_deadline_without_matching_action_is_an_issue_but_kept():
-    reply_deadline = RawDeadline(phrase="innerhalb einer Woche", kind="relative", amount=1, unit="weeks",
-                                 anchor="letter_date", applies_to="reply", lines=["P1-L4"])
-    result = validate.validate(extraction(deadlines=[reply_deadline]), TRANSCRIPT)
-    assert fields_with_issues(result) == ["deadlines[0]"]
-    assert [d.date for d in result.deadlines] == [date(2026, 10, 9)]
+def test_resolved_deadline_keeps_summary_and_payment_flag():
+    [deadline] = validate.validate(extraction(), TRANSCRIPT).deadlines
+    assert deadline.summary == "Pay the 35,00 € fine."
+    assert deadline.is_payment is True

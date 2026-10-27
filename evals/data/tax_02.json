@@ -6,19 +6,15 @@
   "amount": "238,50 €",
   "reference": "12/345/67890",
   "iban": null,
-  "primary_action": "none",
-  "actions": [
-    "reply"
-  ],
   "deadlines": [
     {
-      "applies_to": "reply",
       "kind": "relative",
       "phrase": "einen Monat nach Bekanntgabe",
       "amount": 1,
       "unit": "months",
       "anchor": "receipt",
-      "expected": "2026-10-22"
+      "expected": "2026-10-22",
+      "is_payment": false
     }
   ],
   "note": null,

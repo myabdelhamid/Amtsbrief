@@ -57,7 +57,7 @@ def test_weekend_moves_to_monday():
 # ---------- 4. resolve ----------
 
 def raw(**kw) -> RawDeadline:
-    return RawDeadline(phrase="x", applies_to="reply", lines=["P1-L1"], **kw)
+    return RawDeadline(phrase="x", summary="x", is_payment=False, lines=["P1-L1"], **kw)
 
 
 def test_relative_deadline_counts_from_deemed_receipt():

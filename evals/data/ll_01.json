@@ -6,19 +6,15 @@
   "amount": "284,17 €",
   "reference": "M-2208",
   "iban": "DE89 3704 0044 0532 0130 00",
-  "primary_action": "pay",
-  "actions": [
-    "pay"
-  ],
   "deadlines": [
     {
-      "applies_to": "pay",
       "kind": "relative",
       "phrase": "innerhalb von 30 Tagen nach Zugang",
       "amount": 30,
       "unit": "days",
       "anchor": "receipt",
-      "expected": "2026-11-04"
+      "expected": "2026-11-04",
+      "is_payment": true
     }
   ],
   "note": null,

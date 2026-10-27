@@ -6,10 +6,6 @@
   "amount": null,
   "reference": "BA-2026-04417",
   "iban": null,
-  "primary_action": "none",
-  "actions": [
-    "none"
-  ],
   "deadlines": [],
   "note": null,
   "lines": [

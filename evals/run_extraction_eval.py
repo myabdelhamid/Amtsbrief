@@ -29,7 +29,7 @@ from pipeline.validate import parse_german_amount  # noqa: E402
 from evals.run_transcription_eval import DATA_DIR, RESULTS_DIR, normalize, parse_lines, percent  # noqa: E402
 
 CACHE_DIR = RESULTS_DIR / "extraction"
-FIELDS = ["letter_type", "sender", "letter_date", "amount", "reference", "iban", "actions", "deadlines"]
+FIELDS = ["letter_type", "sender", "letter_date", "amount", "reference", "iban", "deadlines"]
 
 
 # ---------- Comparing one field ----------
@@ -69,13 +69,11 @@ def same_iban(cited: Cited | None, expected: str | None) -> bool:
 def score_fields(result: ValidatedResult, truth: dict) -> dict[str, bool]:
     """For each field in FIELDS: did the extraction get it right?
 
-    actions:   the set of action kinds, ignoring "none".
-    deadlines: the set of (action, date) pairs computed by validate(), so a deadline only
+    deadlines: the set of (is_payment, date) pairs computed by validate(), so a deadline only
                counts if the model read it right AND the code could compute it.
     """
     ex = result.extraction
-    actions = {action.kind.value for action in ex.actions} - {"none"}
-    deadlines = {(d.applies_to.value, d.date.isoformat()) for d in result.deadlines}
+    deadlines = {(d.is_payment, d.date.isoformat()) for d in result.deadlines}
     return {
         "letter_type": ex.letter_type.value == truth["letter_type"],
         "sender": same_text(ex.sender, truth["sender"]),
@@ -83,8 +81,7 @@ def score_fields(result: ValidatedResult, truth: dict) -> dict[str, bool]:
         "amount": same_amount(ex.amount, truth["amount"]),
         "reference": same_text(ex.reference, truth["reference"]),
         "iban": same_iban(ex.iban, truth["iban"]),
-        "actions": actions == set(truth["actions"]) - {"none"},
-        "deadlines": deadlines == {(d["applies_to"], d["expected"]) for d in truth["deadlines"]},
+        "deadlines": deadlines == {(d["is_payment"], d["expected"]) for d in truth["deadlines"]},
     }
 
 

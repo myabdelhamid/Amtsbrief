@@ -6,10 +6,6 @@
   "amount": "96,40 €",
   "reference": "M-3317",
   "iban": null,
-  "primary_action": "none",
-  "actions": [
-    "none"
-  ],
   "deadlines": [],
   "note": null,
   "lines": [

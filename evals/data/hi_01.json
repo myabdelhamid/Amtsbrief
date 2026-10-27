@@ -6,17 +6,13 @@
   "amount": "156,30 €",
   "reference": "A123456789",
   "iban": "DE89 3704 0044 0532 0130 00",
-  "primary_action": "pay",
-  "actions": [
-    "pay"
-  ],
   "deadlines": [
     {
-      "applies_to": "pay",
       "kind": "absolute",
       "phrase": "bis zum 13.11.2026",
       "date_text": "13.11.2026",
-      "expected": "2026-11-13"
+      "expected": "2026-11-13",
+      "is_payment": true
     }
   ],
   "note": null,

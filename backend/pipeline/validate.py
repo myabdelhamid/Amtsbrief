@@ -115,8 +115,8 @@ def validate(extraction: Extraction, transcript: Transcript) -> ValidatedResult:
     - sender, letter_date, and amount/reference/iban when present: `check_cited`.
     - letter_date must parse with `parse_german_date`, amount with
       `parse_german_amount`, and iban must pass `iban_is_valid`.
-    - every action and explanation claim must cite existing lines
-      (field names "actions[0]", "explanation[1]", ...).
+    - every explanation claim must cite existing lines
+      (field names "explanation[0]", "explanation[1]", ...).
     - each deadline goes through `deadlines.resolve` with the letter date.
       If that raises ValueError, or the letter date didn't parse, add an Issue
       for "deadlines[i]" and leave that deadline out.
@@ -145,17 +145,12 @@ def validate(extraction: Extraction, transcript: Transcript) -> ValidatedResult:
     if extraction.iban is not None and not iban_is_valid(extraction.iban.value):
         issues.append(Issue(field="iban", problem="IBAN checksum fails"))
 
-    for name in ["actions", "explanation"]:
-        for i, item in enumerate(getattr(extraction, name)):
-            missing = missing_lines(item.lines, transcript)
-            if missing:
-                issues.append(Issue(field=f"{name}[{i}]", problem=f"cites missing lines {missing}"))
+    for i, claim in enumerate(extraction.explanation):
+        missing = missing_lines(claim.lines, transcript)
+        if missing:
+            issues.append(Issue(field=f"explanation[{i}]", problem=f"cites missing lines {missing}"))
 
     resolved = []
-    actions_to_take = set()
-    for action in extraction.actions:
-        actions_to_take.add(action.kind)
-    
     for i, raw in enumerate(extraction.deadlines):
         if letter_date is None:
             issues.append(Issue(field=f"deadlines[{i}]", problem="letter date unknown, can't compute the deadline"))
@@ -164,7 +159,5 @@ def validate(extraction: Extraction, transcript: Transcript) -> ValidatedResult:
             resolved.append(resolve(raw, letter_date))
         except ValueError as error:
             issues.append(Issue(field=f"deadlines[{i}]", problem=str(error)))
-        if raw.applies_to not in actions_to_take:
-            issues.append(Issue(field=f"deadlines[{i}]", problem=f"applies to {raw.applies_to.value}, but there is no {raw.applies_to.value} action"))
 
     return ValidatedResult(extraction=extraction, deadlines=resolved, unsure=issues)

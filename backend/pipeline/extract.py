@@ -43,6 +43,7 @@ EXTRACT_PROMPT = """
     An appointment date (Termin) is not a deadline
     Leave amount, reference and iban empty when the letter doesn't contain them
     Summaries and explanation claims are short, plain English, for a non-German speaker
+    Each deadline's summary says in one sentence what is due by then; set is_payment only when money must be paid by it
 """
 
 

@@ -6,10 +6,6 @@
   "amount": null,
   "reference": "M-2208",
   "iban": null,
-  "primary_action": "none",
-  "actions": [
-    "none"
-  ],
   "deadlines": [],
   "note": "Contains a date that is an appointment, NOT a deadline.",
   "lines": [

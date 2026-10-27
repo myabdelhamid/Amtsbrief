@@ -6,19 +6,15 @@
   "amount": "35,00 €",
   "reference": "OWI-2026-0815",
   "iban": "DE89 3704 0044 0532 0130 00",
-  "primary_action": "pay",
-  "actions": [
-    "pay"
-  ],
   "deadlines": [
     {
-      "applies_to": "pay",
       "kind": "relative",
       "phrase": "innerhalb einer Woche",
       "amount": 1,
       "unit": "weeks",
       "anchor": "letter_date",
-      "expected": "2026-10-05"
+      "expected": "2026-10-05",
+      "is_payment": true
     }
   ],
   "note": null,

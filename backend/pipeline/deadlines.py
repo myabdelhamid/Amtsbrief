@@ -99,4 +99,5 @@ def resolve(raw: RawDeadline, letter_date: date) -> ResolvedDeadline:
     if shifted != due:
         steps.append(f"Falls on a weekend, moves to {_fmt(shifted)}")
 
-    return ResolvedDeadline(date=shifted, applies_to=raw.applies_to, steps=steps, lines=raw.lines)
+    return ResolvedDeadline(date=shifted, summary=raw.summary, is_payment=raw.is_payment,
+                            steps=steps, lines=raw.lines)

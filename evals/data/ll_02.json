@@ -6,17 +6,13 @@
   "amount": null,
   "reference": "M-2208",
   "iban": null,
-  "primary_action": "reply",
-  "actions": [
-    "reply"
-  ],
   "deadlines": [
     {
-      "applies_to": "reply",
       "kind": "absolute",
       "phrase": "bis zum 31.12.2026",
       "date_text": "31.12.2026",
-      "expected": "2026-12-31"
+      "expected": "2026-12-31",
+      "is_payment": false
     }
   ],
   "note": null,

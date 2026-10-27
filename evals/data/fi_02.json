@@ -6,20 +6,15 @@
   "amount": "98,50 €",
   "reference": "3.1-447712/26",
   "iban": "DE89 3704 0044 0532 0130 00",
-  "primary_action": "pay",
-  "actions": [
-    "pay",
-    "reply"
-  ],
   "deadlines": [
     {
-      "applies_to": "reply",
       "kind": "relative",
       "phrase": "innerhalb von zwei Wochen nach Zustellung",
       "amount": 2,
       "unit": "weeks",
       "anchor": "receipt",
-      "expected": "2026-10-13"
+      "expected": "2026-10-13",
+      "is_payment": false
     }
   ],
   "note": "Payment deadline depends on 'Rechtskraft' and cannot be computed from the letter alone.",

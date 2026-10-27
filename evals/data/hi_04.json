@@ -6,19 +6,15 @@
   "amount": null,
   "reference": "A123456789",
   "iban": null,
-  "primary_action": "reply",
-  "actions": [
-    "reply"
-  ],
   "deadlines": [
     {
-      "applies_to": "reply",
       "kind": "relative",
       "phrase": "innerhalb eines Monats nach Bekanntgabe",
       "amount": 1,
       "unit": "months",
       "anchor": "receipt",
-      "expected": "2026-11-04"
+      "expected": "2026-11-04",
+      "is_payment": false
     }
   ],
   "note": null,
