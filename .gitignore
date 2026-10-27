@@ -6,3 +6,5 @@ __pycache__/
 .DS_Store
 CLAUDE.md
 evals/results/
+evals/private/
+private dataset/
