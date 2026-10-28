@@ -24,7 +24,7 @@ from google.genai import types
 sys.path[:0] = ["backend", "."]
 
 from pipeline.extract import join_pages  # noqa: E402
-from pipeline.preprocess import pdf_to_images  # noqa: E402
+from pipeline.preprocess import load_pages  # noqa: E402
 
 from evals.run_extraction_eval import extract_cached, report  # noqa: E402
 from evals.run_transcription_eval import RESULTS_DIR, parse_lines, transcribe  # noqa: E402
@@ -36,7 +36,7 @@ CACHE_DIR = RESULTS_DIR / "private"
 def transcribe_pages(stem: str) -> list[list[str]]:
     """The parsed lines of each page of evals/private/<stem>.pdf, transcribing uncached pages."""
     pages = []
-    for n, image in enumerate(pdf_to_images((PRIVATE_DIR / f"{stem}.pdf").read_bytes()), start=1):
+    for n, image in enumerate(load_pages((PRIVATE_DIR / f"{stem}.pdf").read_bytes()), start=1):
         cache_path = CACHE_DIR / f"{stem}_p{n}.txt"
         if cache_path.exists():
             raw_text = cache_path.read_text()

@@ -11,6 +11,7 @@ dependencies = [
     "anthropic>=1.15.0",
     "google-genai>=2.31.0",
     "pillow>=13.0.0",
+    "pillow-heif>=1.8.1",
     "pydantic>=2.14.1",
     "pypdfium2>=5.14.0",
     "python-dotenv>=1.2.4",
