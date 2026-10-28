@@ -76,7 +76,9 @@ class Extraction(BaseModel):
         "will receive (a refund, a credit). Empty for amounts that are only mentioned, "
         "such as a future rent you are asked to agree to."))
     reference: Cited | None = None
-    iban: Cited | None = None
+    iban: Cited | None = Field(None, description=(
+        "The account the user must pay into. Empty when the letter asks for no payment, "
+        "e.g. the user's own account for a refund or the sender's account in the footer."))
     deadlines: list[RawDeadline]
     explanation: list[Claim]
 
