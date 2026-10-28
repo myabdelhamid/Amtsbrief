@@ -2,7 +2,9 @@
 
 Run:  uv run pytest backend/tests/test_eval_helpers.py -v
 """
-from evals.run_transcription_eval import normalize, parse_lines, percent, score_letter
+from pipeline.transcribe import parse_lines
+
+from evals.run_transcription_eval import normalize, percent, score_letter
 
 
 # ---------- 1. percent ----------

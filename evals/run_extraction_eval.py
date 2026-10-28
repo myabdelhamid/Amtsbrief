@@ -25,9 +25,10 @@ sys.path[:0] = ["backend", "."]
 from pipeline.deadlines import parse_german_date  # noqa: E402
 from pipeline.extract import extract_and_validate, to_transcript  # noqa: E402
 from pipeline.schemas import Cited, Transcript, ValidatedResult  # noqa: E402
+from pipeline.transcribe import parse_lines  # noqa: E402
 from pipeline.validate import parse_german_amount  # noqa: E402
 
-from evals.run_transcription_eval import DATA_DIR, RESULTS_DIR, normalize, parse_lines, percent  # noqa: E402
+from evals.run_transcription_eval import DATA_DIR, RESULTS_DIR, normalize, percent  # noqa: E402
 
 CACHE_DIR = RESULTS_DIR / "extraction"
 FIELDS = ["letter_type", "sender", "letter_date", "amount", "reference", "iban", "deadlines"]

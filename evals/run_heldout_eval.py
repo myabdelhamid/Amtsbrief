@@ -25,15 +25,16 @@ sys.path[:0] = ["backend", "."]
 
 from pipeline.extract import join_pages  # noqa: E402
 from pipeline.preprocess import load_pages  # noqa: E402
+from pipeline.transcribe import parse_lines, transcribe  # noqa: E402
 
 from evals.run_extraction_eval import extract_cached, report  # noqa: E402
-from evals.run_transcription_eval import RESULTS_DIR, parse_lines, transcribe  # noqa: E402
+from evals.run_transcription_eval import RESULTS_DIR  # noqa: E402
 
 PRIVATE_DIR = Path("evals/private")
 CACHE_DIR = RESULTS_DIR / "private"
 
 
-def transcribe_pages(stem: str) -> list[list[str]]:
+def transcribe_pages(client: genai.Client, stem: str) -> list[list[str]]:
     """The parsed lines of each page of evals/private/<stem>.pdf, transcribing uncached pages."""
     pages = []
     for n, image in enumerate(load_pages((PRIVATE_DIR / f"{stem}.pdf").read_bytes()), start=1):
@@ -42,7 +43,7 @@ def transcribe_pages(stem: str) -> list[list[str]]:
             raw_text = cache_path.read_text()
         else:
             print(f"{stem} page {n}: calling model...")
-            raw_text = transcribe(image)
+            raw_text = transcribe(client, image)
             cache_path.write_text(raw_text)
             time.sleep(5)
         pages.append(parse_lines(raw_text))
@@ -59,7 +60,7 @@ if __name__ == "__main__":
 
     rows = []
     for stem in stems:
-        transcript = join_pages(transcribe_pages(stem))
+        transcript = join_pages(transcribe_pages(client, stem))
         result = extract_cached(client, transcript, CACHE_DIR / "extraction" / f"{stem}.json")
         truth = json.loads((PRIVATE_DIR / f"{stem}.json").read_text())
         rows.append((stem, result, truth))
