@@ -48,16 +48,28 @@ EXTRACT_PROMPT = """
 """
 
 
-def to_transcript(lines: list[str]) -> Transcript:
+def to_transcript(lines: list[str], page: int = 1) -> Transcript:
     """['Foo', 'Bar'] -> Transcript(lines={'P1-L1': 'Foo', 'P1-L2': 'Bar'}).
 
-    Every letter is one page for now, so the page is always P1.
     Line numbers start at 1, like the L1:, L2: prefixes the transcription uses.
+    `page` sets the P<n> part, so page 2's first line is P2-L1.
     """
     numbered = {}
     for n, text in enumerate(lines, start=1):
-        numbered[f"P1-L{n}"] = text
+        numbered[f"P{page}-L{n}"] = text
     return Transcript(lines=numbered)
+
+
+def join_pages(pages: list[list[str]]) -> Transcript:
+    """One transcript for a whole letter: each page numbered with to_transcript, in order.
+
+    [['Foo'], ['Bar']] -> Transcript(lines={'P1-L1': 'Foo', 'P2-L1': 'Bar'})
+    Each page is transcribed by its own model call, so its lines restart at L1.
+    """
+    lines = {}
+    for page, page_lines in enumerate(pages, start=1):
+        lines.update(to_transcript(page_lines, page).lines)
+    return Transcript(lines=lines)
 
 
 def format_transcript(transcript: Transcript) -> str:

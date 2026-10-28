@@ -24,6 +24,16 @@ def test_no_lines_gives_empty_transcript():
     assert extract.to_transcript([]) == Transcript(lines={})
 
 
+def test_page_number_goes_into_the_id():
+    assert extract.to_transcript(["Foo"], page=2) == Transcript(lines={"P2-L1": "Foo"})
+
+
+def test_join_pages_restarts_line_numbers_on_each_page():
+    transcript = extract.join_pages([["Foo", "Bar"], ["Baz"]])
+    assert transcript == Transcript(lines={"P1-L1": "Foo", "P1-L2": "Bar", "P2-L1": "Baz"})
+    assert list(transcript.lines) == ["P1-L1", "P1-L2", "P2-L1"]  # reading order is kept
+
+
 # ---------- 2. format_transcript and format_feedback ----------
 
 def test_formats_one_id_and_text_per_line():

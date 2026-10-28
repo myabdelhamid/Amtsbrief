@@ -23,7 +23,7 @@ sys.path[:0] = ["backend", "."]
 
 from pipeline.deadlines import parse_german_date  # noqa: E402
 from pipeline.extract import extract_and_validate, to_transcript  # noqa: E402
-from pipeline.schemas import Cited, ValidatedResult  # noqa: E402
+from pipeline.schemas import Cited, Transcript, ValidatedResult  # noqa: E402
 from pipeline.validate import parse_german_amount  # noqa: E402
 
 from evals.run_transcription_eval import DATA_DIR, RESULTS_DIR, normalize, parse_lines, percent  # noqa: E402
@@ -87,35 +87,34 @@ def score_fields(result: ValidatedResult, truth: dict) -> dict[str, bool]:
 
 # ---------- Running ----------
 
-def load_or_extract(client: genai.Client, stem: str) -> ValidatedResult:
-    """The cached result for this letter, or a new extraction (1-2 model calls) that gets cached."""
-    cache_path = CACHE_DIR / f"{stem}.json"
+def extract_cached(client: genai.Client, transcript: Transcript, cache_path: Path) -> ValidatedResult:
+    """The result cached at cache_path, or a new extraction (1-2 model calls) that gets cached there."""
     if cache_path.exists():
         return ValidatedResult.model_validate_json(cache_path.read_text())
-    transcription_path = RESULTS_DIR / f"{stem}.txt"
-    if not transcription_path.exists():
-        raise FileNotFoundError(f"No transcription for {stem}. Run evals/run_transcription_eval.py first.")
-    print(f"{stem}: calling model...")
-    transcript = to_transcript(parse_lines(transcription_path.read_text()))
+    print(f"{cache_path.stem}: calling model...")
     result = extract_and_validate(client, transcript)
     cache_path.write_text(result.model_dump_json(indent=2))
     time.sleep(5)
     return result
 
 
-if __name__ == "__main__":
-    stems = sys.argv[1:] or sorted(path.stem for path in DATA_DIR.glob("*.jpg"))
-    if not stems:
-        raise FileNotFoundError(f"No .jpg files in {DATA_DIR.resolve()}. Run this script from the project root.")
-    load_dotenv()
-    client = genai.Client()
-    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+def load_or_extract(client: genai.Client, stem: str) -> ValidatedResult:
+    """Extraction for one synthetic letter, built from its cached transcription."""
+    transcription_path = RESULTS_DIR / f"{stem}.txt"
+    if not transcription_path.exists():
+        raise FileNotFoundError(f"No transcription for {stem}. Run evals/run_transcription_eval.py first.")
+    transcript = to_transcript(parse_lines(transcription_path.read_text()))
+    return extract_cached(client, transcript, CACHE_DIR / f"{stem}.json")
 
+
+def report(rows: list[tuple[str, ValidatedResult, dict]]) -> None:
+    """Print one line per letter, then each field's score and the overall score.
+
+    rows: (stem, result, ground truth) for each letter.
+    """
     correct = {field: 0 for field in FIELDS}
     verified = retried = 0
-    for stem in stems:
-        result = load_or_extract(client, stem)
-        truth = json.loads((DATA_DIR / f"{stem}.json").read_text())
+    for stem, result, truth in rows:
         scores = score_fields(result, truth)
         for field, ok in scores.items():
             correct[field] += ok
@@ -132,10 +131,26 @@ if __name__ == "__main__":
             line += " (retried)"
         print(line)
 
-    n = len(stems)
+    n = len(rows)
     print()
     for field in FIELDS:
         print(f"{field:12} {correct[field]}/{n} ({percent(correct[field], n):.1f}%)")
     all_correct = sum(correct.values())
     print(f"{'overall':12} {all_correct}/{n * len(FIELDS)} ({percent(all_correct, n * len(FIELDS)):.1f}%)")
     print(f"fully verified: {verified}/{n}, retried: {retried}/{n}")
+
+
+if __name__ == "__main__":
+    stems = sys.argv[1:] or sorted(path.stem for path in DATA_DIR.glob("*.jpg"))
+    if not stems:
+        raise FileNotFoundError(f"No .jpg files in {DATA_DIR.resolve()}. Run this script from the project root.")
+    load_dotenv()
+    client = genai.Client()
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+
+    rows = []
+    for stem in stems:
+        result = load_or_extract(client, stem)
+        truth = json.loads((DATA_DIR / f"{stem}.json").read_text())
+        rows.append((stem, result, truth))
+    report(rows)
