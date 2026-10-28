@@ -143,7 +143,14 @@ def validate(extraction: Extraction, transcript: Transcript) -> ValidatedResult:
             issues.append(Issue(field="amount", problem=f"can't read {extraction.amount.value!r} as an amount"))
 
     if extraction.iban is not None and not iban_is_valid(extraction.iban.value):
-        issues.append(Issue(field="iban", problem="IBAN checksum fails"))
+        # If the transcript has this exact IBAN, the letter (or its transcription) is wrong,
+        # not the extraction, so a retry could only change or drop a correctly copied value.
+        printed = extraction.iban.value.replace(" ", "") in "".join(transcript.lines.values()).replace(" ", "")
+        if printed:
+            issues.append(Issue(field="iban", problem="IBAN checksum fails, and it is printed this way in the letter",
+                                retry=False))
+        else:
+            issues.append(Issue(field="iban", problem="IBAN checksum fails"))
 
     for i, claim in enumerate(extraction.explanation):
         missing = missing_lines(claim.lines, transcript)
@@ -158,6 +165,9 @@ def validate(extraction: Extraction, transcript: Transcript) -> ValidatedResult:
         try:
             resolved.append(resolve(raw, letter_date))
         except ValueError as error:
-            issues.append(Issue(field=f"deadlines[{i}]", problem=str(error)))
+            # An undated event or unsupported wording is a correct answer the code can't
+            # compute; feedback would only push the model towards a wrong anchor.
+            uncomputable = raw.anchor == "other" or raw.kind == "unsupported"
+            issues.append(Issue(field=f"deadlines[{i}]", problem=str(error), retry=not uncomputable))
 
     return ValidatedResult(extraction=extraction, deadlines=resolved, unsure=issues)

@@ -40,10 +40,23 @@ class LetterType(str, Enum):
 class RawDeadline(BaseModel):
     """The deadline exactly as the letter phrases it. The LLM does NO date math."""
     phrase: str = Field(description="Verbatim wording, e.g. 'innerhalb eines Monats nach Bekanntgabe'")
-    kind: Literal["absolute", "relative"]
+    kind: Literal["absolute", "relative", "unsupported"] = Field(description=(
+        "'absolute' for a date written in the letter, 'relative' for a period counted from "
+        "something, 'unsupported' when the wording fits neither exactly (e.g. working days, "
+        "'14 Tage vor dem Termin'). Never force a phrase into a shape it doesn't match."))
     date_text: str | None = Field(None, description="For absolute deadlines: the date as written, e.g. '06.11.2026'")
-    amount: int | None = Field(None, description="For relative deadlines: e.g. 1")
-    unit: Literal["days", "weeks", "months"] | None = None
+    amount: int | None = Field(None, description=(
+        "For relative deadlines: e.g. 1. Use 0 with a snap for 'zum Quartalsende' or "
+        "'bis zum Monatsende' (the end of the current period)."))
+    unit: Literal["days", "weeks", "months", "years"] | None = None
+    snap_to: Literal["start", "end"] | None = Field(None, description=(
+        "Only when the letter names the start or end of a calendar period: 'end' for "
+        "'Ablauf des zweiten Monats nach Zugang' or 'vor Ablauf der zweiten Kalenderwoche', "
+        "'start' for 'Beginn des dritten Kalendermonats'. Empty for a plain counted period: "
+        "'innerhalb von zwei Wochen nach Zugang' has no snap."))
+    snap_unit: Literal["week", "month", "quarter", "year"] | None = Field(None, description=(
+        "The calendar period snap_to refers to (a week runs Monday to Sunday). Set both "
+        "snap fields or neither."))
     anchor: Literal["letter_date", "receipt", "other"] | None = Field(None, description=(
         "For relative deadlines, what the period counts from: 'receipt' for nach Bekanntgabe / "
         "Zugang / Zustellung / Erhalt; 'letter_date' for nach dem Datum dieses Schreibens; "
@@ -96,6 +109,9 @@ class ResolvedDeadline(BaseModel):
 class Issue(BaseModel):
     field: str
     problem: str
+    retry: bool = Field(True, description=(
+        "False when asking the model again can't help, e.g. the letter itself prints an "
+        "IBAN that fails the checksum. Such issues are shown, never sent as feedback."))
 
 
 class ValidatedResult(BaseModel):

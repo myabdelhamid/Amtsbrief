@@ -8,7 +8,7 @@ from google import genai
 from google.genai import types
 
 load_dotenv()
-client = genai.Client()
+client = genai.Client(http_options=types.HttpOptions(timeout=120_000))  # ms; a hung call fails instead of waiting forever
 
 MODEL = "gemini-3.8-flash"
 DATA_DIR = Path("evals/data") 

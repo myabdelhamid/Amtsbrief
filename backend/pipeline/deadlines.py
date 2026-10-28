@@ -12,6 +12,11 @@ Rules encoded here (German administrative and tax letters):
   Public holidays are not handled yet.
 - A period counted from an event the letter doesn't date (anchor "other", e.g.
   "nach Rechtskraft") can't be computed, so resolve() raises ValueError.
+- A snap moves the counted date to the start or end of its calendar week
+  (Monday to Sunday), month, quarter or year: "Ablauf des zweiten Monats nach
+  Zugang" is +2 months, then the end of that month. The weekend shift comes
+  after the snap, because the snapped day is the real last day.
+- Wording that fits no shape (kind "unsupported") is never guessed: ValueError.
 """
 from __future__ import annotations
 
@@ -78,8 +83,32 @@ def add_period(d: date, amount: int, unit: str) -> date:
     raise ValueError(f"unknown unit {unit!r}")
 
 
+def snap(d: date, to: str, unit: str) -> date:
+    """The first ('start') or last ('end') day of the week, month, quarter or year that contains d."""
+    if unit == "week":
+        monday = d - timedelta(days=d.weekday())
+        return monday if to == "start" else monday + timedelta(days=6)
+    if unit == "month":
+        first_month = last_month = d.month
+    elif unit == "quarter":
+        first_month = 3 * ((d.month - 1) // 3) + 1  # 1, 4, 7 or 10
+        last_month = first_month + 2
+    elif unit == "year":
+        first_month, last_month = 1, 12
+    else:
+        raise ValueError(f"unknown snap unit {unit!r}")
+    if to == "start":
+        return date(d.year, first_month, 1)
+    return date(d.year, last_month, calendar.monthrange(d.year, last_month)[1])
+
+
 def resolve(raw: RawDeadline, letter_date: date) -> ResolvedDeadline:
     steps: list[str] = []
+
+    if raw.kind == "unsupported":
+        raise ValueError(f"wording the code can't compute: {raw.phrase!r}")
+    if (raw.snap_to is None) != (raw.snap_unit is None):
+        raise ValueError("snap_to and snap_unit must be set together")
 
     if raw.kind == "absolute":
         if not raw.date_text:
@@ -98,7 +127,11 @@ def resolve(raw: RawDeadline, letter_date: date) -> ResolvedDeadline:
             steps.append(f"Deemed received {_fmt(start)} (+{RECEIPT_DAYS} days)")
         due = add_period(start, raw.amount, raw.unit)
         label = raw.unit[:-1] if raw.amount == 1 else raw.unit
-        steps.append(f"+{raw.amount} {label} = {_fmt(due)}")
+        if raw.amount:
+            steps.append(f"+{raw.amount} {label} = {_fmt(due)}")
+        if raw.snap_to is not None:
+            due = snap(due, raw.snap_to, raw.snap_unit)
+            steps.append(f"{raw.snap_to.capitalize()} of that {raw.snap_unit} = {_fmt(due)}")
 
     shifted = due
     if raw.purpose != "appointment":

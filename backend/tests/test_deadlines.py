@@ -93,3 +93,82 @@ def test_appointment_on_weekend_is_not_shifted():
     d = deadlines.resolve(raw(kind="absolute", date_text="07.11.2026", purpose="appointment"), date(2026, 10, 1))
     assert d.date == date(2026, 11, 7)
     assert d.steps == ["Stated in letter: 7 Nov"]
+
+
+# ---------- 5. snap: start or end of a calendar period ----------
+
+def test_snap_week_runs_monday_to_sunday():
+    wednesday = date(2026, 11, 25)
+    assert deadlines.snap(wednesday, "start", "week") == date(2026, 11, 23)
+    assert deadlines.snap(wednesday, "end", "week") == date(2026, 11, 29)
+
+
+def test_snap_month_end_knows_february():
+    assert deadlines.snap(date(2028, 2, 10), "end", "month") == date(2028, 2, 29)  # leap year
+    assert deadlines.snap(date(2027, 2, 10), "start", "month") == date(2027, 2, 1)
+
+
+def test_snap_quarter_and_year():
+    assert deadlines.snap(date(2026, 11, 5), "end", "quarter") == date(2026, 12, 31)
+    assert deadlines.snap(date(2027, 2, 10), "start", "quarter") == date(2027, 1, 1)
+    assert deadlines.snap(date(2027, 5, 10), "end", "quarter") == date(2027, 6, 30)
+    assert deadlines.snap(date(2027, 5, 10), "start", "year") == date(2027, 1, 1)
+
+
+# The ho_02 letter is dated 05.11.2026, so it counts as received on Mon 09.11.
+
+def test_end_of_the_second_month_after_receipt():
+    # "bis zum Ablauf des zweiten Monats nach Zugang": +2 months = 9 Jan, end = Sun 31 Jan
+    d = deadlines.resolve(raw(kind="relative", amount=2, unit="months", anchor="receipt",
+                              snap_to="end", snap_unit="month"), date(2026, 11, 5))
+    assert d.date == date(2027, 2, 1)
+    assert d.steps == ["Dated 5 Nov", "Deemed received 9 Nov (+4 days)", "+2 months = 9 Jan",
+                       "End of that month = 31 Jan", "Falls on a weekend, moves to 1 Feb"]
+
+
+def test_start_of_the_third_calendar_month_after_receipt():
+    # "ab Beginn des dritten Kalendermonats nach Erhalt": +3 months = 9 Feb, start = 1 Feb
+    d = deadlines.resolve(raw(kind="relative", amount=3, unit="months", anchor="receipt",
+                              snap_to="start", snap_unit="month"), date(2026, 11, 5))
+    assert d.date == date(2027, 2, 1)
+
+
+def test_start_of_the_third_week_after_receipt():
+    # Dated Tue 03.11, received Sat 07.11, +3 weeks = Sat 28.11, start of that week = Mon 23.11
+    d = deadlines.resolve(raw(kind="relative", amount=3, unit="weeks", anchor="receipt",
+                              snap_to="start", snap_unit="week"), date(2026, 11, 3))
+    assert d.date == date(2026, 11, 23)
+
+
+def test_end_of_the_second_calendar_week_moves_off_sunday():
+    # Received Sat 07.11, +2 weeks = Sat 21.11, end of that week = Sun 22.11, moves to Mon 23.11
+    d = deadlines.resolve(raw(kind="relative", amount=2, unit="weeks", anchor="receipt",
+                              snap_to="end", snap_unit="week"), date(2026, 11, 3))
+    assert d.date == date(2026, 11, 23)
+    assert d.steps[-2:] == ["End of that week = 22 Nov", "Falls on a weekend, moves to 23 Nov"]
+
+
+def test_end_of_the_current_quarter():
+    # "zum Quartalsende": no period (amount 0), just the end of the letter date's quarter
+    d = deadlines.resolve(raw(kind="relative", amount=0, unit="months", anchor="letter_date",
+                              snap_to="end", snap_unit="quarter"), date(2026, 11, 5))
+    assert d.date == date(2026, 12, 31)
+    assert d.steps == ["Dated 5 Nov", "End of that quarter = 31 Dec"]
+
+
+def test_plain_counted_weeks_are_not_snapped():
+    # "innerhalb von zwei Wochen nach Zugang" stays receipt + 14 days: Sat 21.11 -> Mon 23.11
+    d = deadlines.resolve(raw(kind="relative", amount=2, unit="weeks", anchor="receipt"), date(2026, 11, 3))
+    assert d.date == date(2026, 11, 23)
+    assert not any("of that" in step for step in d.steps)
+
+
+def test_unsupported_wording_is_rejected():
+    with pytest.raises(ValueError):
+        deadlines.resolve(raw(kind="unsupported"), date(2026, 11, 5))
+
+
+def test_snap_needs_both_fields():
+    with pytest.raises(ValueError):
+        deadlines.resolve(raw(kind="relative", amount=2, unit="months", anchor="receipt", snap_to="end"),
+                          date(2026, 11, 5))

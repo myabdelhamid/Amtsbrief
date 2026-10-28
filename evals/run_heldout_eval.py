@@ -19,6 +19,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from google import genai
+from google.genai import types
 
 sys.path[:0] = ["backend", "."]
 
@@ -53,7 +54,7 @@ if __name__ == "__main__":
     if not stems:
         raise FileNotFoundError(f"No ground truth in {PRIVATE_DIR.resolve()}. Run this script from the project root.")
     load_dotenv()
-    client = genai.Client()
+    client = genai.Client(http_options=types.HttpOptions(timeout=120_000))  # ms; a hung call fails instead of waiting forever
     (CACHE_DIR / "extraction").mkdir(parents=True, exist_ok=True)
 
     rows = []

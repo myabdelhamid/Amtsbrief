@@ -200,3 +200,25 @@ def test_deadline_counted_from_an_undated_event_is_an_issue():
     result = validate.validate(extraction(deadlines=[after_final]), TRANSCRIPT)
     assert fields_with_issues(result) == ["deadlines[0]"]
     assert result.deadlines == []
+
+def test_invalid_iban_printed_in_the_letter_is_not_retried():
+    transcript = Transcript(lines={**TRANSCRIPT.lines, "P1-L5": "IBAN: DE88 3704 0044 0532 0130 00"})
+    printed = Cited(value="DE88 3704 0044 0532 0130 00", quote="IBAN: DE88 3704 0044 0532 0130 00", lines=["P1-L5"])
+    [issue] = validate.validate(extraction(iban=printed), transcript).unsure
+    assert issue.field == "iban"
+    assert issue.retry is False
+
+
+def test_invalid_iban_the_model_mistyped_is_retried():
+    mistyped = Cited(value="DE88 3704 0044 0532 0130 00", quote="DE88 3704 0044 0532 0130 00", lines=["P1-L5"])
+    [issue] = validate.validate(extraction(iban=mistyped), TRANSCRIPT).unsure
+    assert issue.retry is True
+
+
+def test_undated_event_is_not_retried_but_missing_fields_are():
+    after_final = RawDeadline(phrase="zwei Wochen nach Rechtskraft", kind="relative", amount=2, unit="weeks",
+                              anchor="other", summary="Pay the fine.", purpose="payment", lines=["P1-L4"])
+    incomplete = RawDeadline(phrase="innerhalb einer Woche", kind="relative", amount=1,
+                             summary="Pay the fine.", purpose="payment", lines=["P1-L4"])
+    result = validate.validate(extraction(deadlines=[after_final, incomplete]), TRANSCRIPT)
+    assert [(issue.field, issue.retry) for issue in result.unsure] == [("deadlines[0]", False), ("deadlines[1]", True)]

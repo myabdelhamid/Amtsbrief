@@ -19,6 +19,7 @@ from .schemas import Extraction, Issue, Transcript, ValidatedResult
 from .validate import validate
 
 MODEL = "gemini-3.8-flash"
+OPTIONAL_FIELDS = ["amount", "reference", "iban"]  # the cited fields a retry can leave empty
 
 # TODO (yours to write): the instructions for the model. The transcript and any
 # feedback are added after this text by `build_prompt`, so don't include them here.
@@ -42,6 +43,8 @@ EXTRACT_PROMPT = """
     "nach Bekanntgabe / Zugang / Zustellung" means anchor = "receipt"
     An appointment (Termin, a visit) goes in deadlines with purpose "appointment" and the date as written
     If a period counts from an event the letter doesn't date (e.g. nach Rechtskraft), use anchor "other"
+    Use snap_to and snap_unit only when the letter names the start or end of a calendar period (Ablauf des zweiten Monats, Beginn des Kalendermonats, Kalenderwoche, Quartalsende); a plain "zwei Wochen nach Zugang" is a counted period with no snap
+    If a deadline's wording fits none of these shapes exactly, use kind "unsupported" instead of guessing
     Leave amount, reference and iban empty when the letter doesn't contain them
     Summaries and explanation claims are short, plain English, for a non-German speaker
     Each deadline's summary says in one sentence what is due by then, for a reminder
@@ -131,11 +134,20 @@ def extract_and_validate(client: genai.Client, transcript: Transcript) -> Valida
     3. Otherwise extract again with those issues as feedback, validate the new
        extraction, and return that result with `retried` set to True.
     Never more than two model calls per letter.
+
+    Only issues with `retry=True` are sent as feedback; if there are none, there is no
+    retry. A flagged field the retry leaves empty gets its first value back, so it is
+    shown as "Couldn't verify" instead of silently disappearing.
     """
-    extraction = extract(client, transcript)
+    first = validate(extract(client, transcript), transcript)
+    to_fix = [issue for issue in first.unsure if issue.retry]
+    if not to_fix:
+        return first
+    extraction = extract(client, transcript, to_fix)
+    flagged = {issue.field for issue in first.unsure}
+    for name in OPTIONAL_FIELDS:
+        if name in flagged and getattr(extraction, name) is None:
+            setattr(extraction, name, getattr(first.extraction, name))
     validation_result = validate(extraction, transcript)
-    if validation_result.unsure:
-        extraction = extract(client, transcript, validation_result.unsure)
-        validation_result = validate(extraction, transcript)
-        validation_result.retried = True
+    validation_result.retried = True
     return validation_result

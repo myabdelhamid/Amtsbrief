@@ -4,7 +4,7 @@ Run:  uv run pytest backend/tests/test_extract.py -v
 Tip:  work top to bottom. `extract` itself has no tests here: the eval checks it.
 """
 from pipeline import extract
-from pipeline.schemas import Cited, Issue, Transcript
+from pipeline.schemas import Cited, Claim, Issue, Transcript
 
 from test_validate import TRANSCRIPT, extraction
 
@@ -120,3 +120,33 @@ def test_retries_only_once(monkeypatch):
     assert len(calls) == 2
     assert [issue.field for issue in result.unsure] == ["iban"]
     assert result.retried is True
+
+
+# A letter that itself prints an IBAN failing the checksum (like the real ho_04 sample).
+PRINTED_BAD = Transcript(lines={**TRANSCRIPT.lines, "P1-L5": "IBAN: DE88 3704 0044 0532 0130 00"})
+
+
+def test_iban_printed_wrong_in_the_letter_is_not_retried(monkeypatch):
+    calls = fake_model(monkeypatch, [extraction(iban=BAD_IBAN)])
+    result = extract.extract_and_validate(None, PRINTED_BAD)
+    assert len(calls) == 1
+    assert [issue.field for issue in result.unsure] == ["iban"]
+    assert result.extraction.iban == BAD_IBAN
+    assert result.retried is False
+
+
+def test_feedback_leaves_out_issues_a_retry_cant_fix(monkeypatch):
+    bad_claim = [Claim(text="You were fined 35 euros.", lines=["P3-L1"])]
+    calls = fake_model(monkeypatch, [extraction(iban=BAD_IBAN, explanation=bad_claim),
+                                     extraction(iban=BAD_IBAN)])
+    result = extract.extract_and_validate(None, PRINTED_BAD)
+    assert [issue.field for issue in calls[1]] == ["explanation[0]"]
+    assert [issue.field for issue in result.unsure] == ["iban"]
+
+
+def test_flagged_field_dropped_by_the_retry_is_kept_as_unverified(monkeypatch):
+    calls = fake_model(monkeypatch, [extraction(iban=BAD_IBAN), extraction(iban=None)])
+    result = extract.extract_and_validate(None, TRANSCRIPT)
+    assert len(calls) == 2
+    assert result.extraction.iban == BAD_IBAN
+    assert [issue.field for issue in result.unsure] == ["iban"]
