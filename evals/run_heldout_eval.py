@@ -34,15 +34,15 @@ PRIVATE_DIR = Path("evals/private")
 CACHE_DIR = RESULTS_DIR / "private"
 
 
-def transcribe_pages(client: genai.Client, stem: str) -> list[list[str]]:
-    """The parsed lines of each page of evals/private/<stem>.pdf, transcribing uncached pages."""
+def transcribe_pages(client: genai.Client, pdf_path: Path, cache_dir: Path) -> list[list[str]]:
+    """The parsed lines of each page of a PDF, transcribing pages that aren't cached in cache_dir."""
     pages = []
-    for n, image in enumerate(load_pages((PRIVATE_DIR / f"{stem}.pdf").read_bytes()), start=1):
-        cache_path = CACHE_DIR / f"{stem}_p{n}.txt"
+    for n, image in enumerate(load_pages(pdf_path.read_bytes()), start=1):
+        cache_path = cache_dir / f"{pdf_path.stem}_p{n}.txt"
         if cache_path.exists():
             raw_text = cache_path.read_text()
         else:
-            print(f"{stem} page {n}: calling model...")
+            print(f"{pdf_path.stem} page {n}: calling model...")
             raw_text = transcribe(client, image)
             cache_path.write_text(raw_text)
             time.sleep(5)
@@ -60,7 +60,7 @@ if __name__ == "__main__":
 
     rows = []
     for stem in stems:
-        transcript = join_pages(transcribe_pages(client, stem))
+        transcript = join_pages(transcribe_pages(client, PRIVATE_DIR / f"{stem}.pdf", CACHE_DIR))
         result = extract_cached(client, transcript, CACHE_DIR / "extraction" / f"{stem}.json")
         truth = json.loads((PRIVATE_DIR / f"{stem}.json").read_text())
         rows.append((stem, result, truth))
