@@ -18,7 +18,7 @@ from decimal import Decimal
 from difflib import SequenceMatcher
 
 from .deadlines import parse_german_date, resolve
-from .injection import suspicious_lines
+from .injection import suspicious_lines, unsourced_details
 from .schemas import Cited, Extraction, Issue, LineId, Transcript, ValidatedResult
 
 QUOTE_THRESHOLD = 0.9
@@ -123,6 +123,15 @@ def check_not_suspicious(field: str, lines: list[LineId], suspicious: list[LineI
                                        "Never use those lines.")]
 
 
+def check_own_words(field: str, text: str, transcript: Transcript, suspicious: list[LineId]) -> list[Issue]:
+    """An Issue if text the model wrote (a summary, a claim) has contact details the letter doesn't."""
+    details = unsourced_details(text, transcript, suspicious)
+    if not details:
+        return []
+    return [Issue(field=field, problem=f"mentions {details}, which the letter doesn't contain outside text "
+                                       "addressed to an AI. Only repeat contact details printed in the letter.")]
+
+
 def validate(extraction: Extraction, transcript: Transcript) -> ValidatedResult:
     """Check every field and resolve the deadlines.
 
@@ -136,6 +145,9 @@ def validate(extraction: Extraction, transcript: Transcript) -> ValidatedResult:
       for "deadlines[i]" and leave that deadline out.
     - anything citing a line that addresses an AI (`suspicious_lines`) is an Issue,
       and such a deadline is never resolved, so an injected date can't become a reminder.
+    - a summary or claim with a URL, email, IBAN or phone number that only appears in
+      such lines, or nowhere in the letter, is an Issue; that deadline isn't resolved either,
+      because its summary becomes the reminder text.
     Fields with problems still stay in `extraction`; the Issues say which ones
     the UI must show as "Couldn't verify".
     """
@@ -175,10 +187,12 @@ def validate(extraction: Extraction, transcript: Transcript) -> ValidatedResult:
         if missing:
             issues.append(Issue(field=f"explanation[{i}]", problem=f"cites missing lines {missing}"))
         issues += check_not_suspicious(f"explanation[{i}]", claim.lines, suspicious)
+        issues += check_own_words(f"explanation[{i}]", claim.text, transcript, suspicious)
 
     resolved = []
     for i, raw in enumerate(extraction.deadlines):
-        injected = check_not_suspicious(f"deadlines[{i}]", raw.lines, suspicious)
+        injected = (check_not_suspicious(f"deadlines[{i}]", raw.lines, suspicious)
+                    + check_own_words(f"deadlines[{i}]", raw.summary, transcript, suspicious))
         if injected:
             issues += injected
             continue
