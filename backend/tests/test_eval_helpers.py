@@ -81,3 +81,7 @@ def test_ignores_prefix_in_the_middle_of_a_line():
 
 def test_drops_empty_lines():
     assert parse_lines("L1: Foo\n\n   \nL5:\nL6: Bar") == ["Foo", "Bar"]
+
+
+def test_parse_lines_drops_code_fences():
+    assert parse_lines("```\nL1: Foo\nL2: Bar\n```") == ["Foo", "Bar"]
