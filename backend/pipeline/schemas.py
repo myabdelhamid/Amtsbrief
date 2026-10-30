@@ -122,3 +122,10 @@ class ValidatedResult(BaseModel):
         "Lines written to an AI instead of to the reader. If any, the UI warns the user "
         "that the letter contains text aimed at automated readers."))
     retried: bool = False
+
+
+class Analysis(BaseModel):
+    """What `analyze` returns: the result plus the transcript its line IDs point into."""
+    transcript: Transcript
+    result: ValidatedResult
+    pages: int
