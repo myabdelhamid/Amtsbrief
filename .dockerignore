@@ -1,0 +1,14 @@
+# Keep secrets, private letters and caches out of the image.
+.env
+.git
+.venv
+**/__pycache__
+.pytest_cache
+.DS_Store
+CLAUDE.md
+evals
+private dataset
+docs
+frontend/node_modules
+frontend/dist
+backend/tests
