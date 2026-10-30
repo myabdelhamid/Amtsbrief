@@ -120,3 +120,13 @@ def test_calendar_feed_needs_no_sign_in_but_a_secret(api, monkeypatch):
     assert feed.status_code == 200
     assert len(Calendar.from_ical(feed.content).walk("VEVENT")) == 2
     assert api.get("/api/calendar/wrong-token.ics").status_code == 404
+
+
+def test_config_tells_the_frontend_about_dev_mode(api, monkeypatch):
+    monkeypatch.setenv("GOOGLE_CLOUD_PROJECT", "demo")
+    config = api.get("/api/config").json()
+    assert config["dev"] is True
+    assert config["firebase"]["projectId"] == "demo"
+    assert config["firebase"]["authDomain"] == "demo.firebaseapp.com"
+    monkeypatch.delenv("AMTSBRIEF_DEV_USER")
+    assert api.get("/api/config").json()["dev"] is False

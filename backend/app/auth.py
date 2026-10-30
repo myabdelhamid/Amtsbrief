@@ -24,8 +24,11 @@ def current_user(authorization: str | None = Header(None)) -> str:
         return user
     if not authorization or not authorization.startswith("Bearer "):
         raise HTTPException(401, "Sign in first")
-    from firebase_admin import auth  # imported here so tests and dev mode don't need credentials
+    import firebase_admin  # imported here so tests and dev mode don't need credentials
+    from firebase_admin import auth
 
+    if not firebase_admin._apps:
+        firebase_admin.initialize_app()  # the project comes from GOOGLE_CLOUD_PROJECT
     try:
         return auth.verify_id_token(authorization.removeprefix("Bearer "))["uid"]
     except (auth.InvalidIdTokenError, auth.ExpiredIdTokenError, auth.RevokedIdTokenError, ValueError):

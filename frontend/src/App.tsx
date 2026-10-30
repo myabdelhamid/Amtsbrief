@@ -5,8 +5,9 @@ import Letters from './pages/Letters'
 import SignIn from './pages/SignIn'
 
 function Shell() {
-  const { session, loading, signOut } = useAuth()
+  const { session, loading, error, signOut } = useAuth()
   if (loading) return <main className="page"><p className="muted">Loading…</p></main>
+  if (error) return <main className="page"><p className="error">{error}</p></main>
   if (!session) return <SignIn />
   return (
     <>

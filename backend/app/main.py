@@ -7,6 +7,7 @@
     GET    /api/letters/{id}/deadlines/{i}.ics   one deadline for the calendar
     GET    /api/calendar                  the user's private feed URL
     GET    /api/calendar/{token}.ics      the feed itself (no sign-in: calendar apps can't)
+    GET    /api/config                    the Firebase web config the frontend signs in with
 
 Run locally from the project root:
     AMTSBRIEF_DEV_USER=dev uv run uvicorn app.main:app --app-dir backend --reload
@@ -33,7 +34,7 @@ from pipeline.analyze import NoTextFound, analyze
 from pipeline.preprocess import MAX_BYTES, UnsupportedFile
 
 from . import calendar
-from .auth import current_user
+from .auth import current_user, dev_user
 from .store import FirestoreStore, LetterStore, MemoryStore, StoredLetter
 
 DAILY_LIMIT = int(os.environ.get("AMTSBRIEF_DAILY_LIMIT", "20"))  # letters per user per day: protects the credits
@@ -172,6 +173,23 @@ def feed(token: str, store: LetterStore = Depends(get_store)) -> Response:
     if uid is None:
         raise HTTPException(404, "Unknown calendar")
     return Response(calendar.calendar(store.list(uid)), media_type=ICS)
+
+
+class ClientConfig(BaseModel):
+    """Public by design: a Firebase web config identifies the project, it grants nothing."""
+    dev: bool
+    firebase: dict[str, str]
+
+
+@app.get("/api/config")
+def client_config() -> ClientConfig:
+    project = os.environ.get("GOOGLE_CLOUD_PROJECT", "")
+    return ClientConfig(dev=dev_user() is not None, firebase={
+        "apiKey": os.environ.get("FIREBASE_API_KEY", ""),
+        "authDomain": os.environ.get("FIREBASE_AUTH_DOMAIN", f"{project}.firebaseapp.com"),
+        "projectId": project,
+        "appId": os.environ.get("FIREBASE_APP_ID", ""),
+    })
 
 
 # The built React app. Any path that isn't /api or a file gets index.html,
