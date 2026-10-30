@@ -58,7 +58,7 @@ if __name__ == "__main__":
     client = genai.Client(http_options=types.HttpOptions(timeout=120_000))  # ms; a hung call fails instead of waiting forever
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     results = {}
-    total_exact = total_normalized = total_total = 0
+    total_exact = total_normalized = total_lines = 0
     for path in images:
         cache_path = RESULTS_DIR / f"{path.stem}.txt"
         if cache_path.exists():
@@ -76,8 +76,8 @@ if __name__ == "__main__":
         )
         total_exact += exact
         total_normalized += normalized
-        total_total += total
+        total_lines += total
     print(
-        f"overall: exact {total_exact}/{total_total} ({percent(total_exact, total_total):.1f}%), "
-        f"normalized {total_normalized}/{total_total} ({percent(total_normalized, total_total):.1f}%)"
+        f"overall: exact {total_exact}/{total_lines} ({percent(total_exact, total_lines):.1f}%), "
+        f"normalized {total_normalized}/{total_lines} ({percent(total_normalized, total_lines):.1f}%)"
     )

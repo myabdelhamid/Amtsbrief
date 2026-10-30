@@ -1,14 +1,13 @@
 [project]
 name = "amtsbrief"
 version = "0.1.0"
-description = "Add your description here"
+description = "Explains German official letters in plain English, with cited deadlines and amounts"
 readme = "README.md"
 authors = [
     { name = "Marwan Abdelhamid", email = "101995294+marwannelsayed@users.noreply.github.com" }
 ]
 requires-python = ">=3.12"
 dependencies = [
-    "anthropic>=1.15.0",
     "google-genai>=2.31.0",
     "pillow>=13.0.0",
     "pillow-heif>=1.8.1",
@@ -17,12 +16,8 @@ dependencies = [
     "python-dotenv>=1.2.4",
 ]
 
-[project.scripts]
-amtsbrief = "amtsbrief:main"
-
-[build-system]
-requires = ["uv_build>=0.13.0,<0.14.0"]
-build-backend = "uv_build"
+[tool.uv]
+package = false  # an app, not a library: nothing to build or install
 
 [dependency-groups]
 dev = [
