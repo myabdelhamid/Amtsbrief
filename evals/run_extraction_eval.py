@@ -115,13 +115,14 @@ def report(rows: list[tuple[str, ValidatedResult, dict]]) -> None:
     rows: (stem, result, ground truth) for each letter.
     """
     correct = {field: 0 for field in FIELDS}
-    verified = retried = 0
+    verified = retried = warned = 0
     for stem, result, truth in rows:
         scores = score_fields(result, truth)
         for field, ok in scores.items():
             correct[field] += ok
         verified += not result.unsure
         retried += result.retried
+        warned += bool(result.suspicious)
 
         wrong = [field for field, ok in scores.items() if not ok]
         line = f"{stem}: {sum(scores.values())}/{len(FIELDS)} fields"
@@ -131,6 +132,8 @@ def report(rows: list[tuple[str, ValidatedResult, dict]]) -> None:
             line += f", couldn't verify: {', '.join(issue.field for issue in result.unsure)}"
         if result.retried:
             line += " (retried)"
+        if result.suspicious:
+            line += f", WARNING: text addressed to an AI on {', '.join(result.suspicious)}"
         print(line)
 
     n = len(rows)
@@ -139,7 +142,7 @@ def report(rows: list[tuple[str, ValidatedResult, dict]]) -> None:
         print(f"{field:12} {correct[field]}/{n} ({percent(correct[field], n):.1f}%)")
     all_correct = sum(correct.values())
     print(f"{'overall':12} {all_correct}/{n * len(FIELDS)} ({percent(all_correct, n * len(FIELDS)):.1f}%)")
-    print(f"fully verified: {verified}/{n}, retried: {retried}/{n}")
+    print(f"fully verified: {verified}/{n}, retried: {retried}/{n}, warned: {warned}/{n}")
 
 
 if __name__ == "__main__":

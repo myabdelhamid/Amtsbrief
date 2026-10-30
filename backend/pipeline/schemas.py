@@ -118,4 +118,7 @@ class ValidatedResult(BaseModel):
     extraction: Extraction
     deadlines: list[ResolvedDeadline]
     unsure: list[Issue] = Field(description="Shown to the user as 'Couldn't verify'")
+    suspicious: list[LineId] = Field(default_factory=list, description=(
+        "Lines written to an AI instead of to the reader. If any, the UI warns the user "
+        "that the letter contains text aimed at automated readers."))
     retried: bool = False
