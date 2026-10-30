@@ -1,0 +1,109 @@
+:root {
+  --bg: #f6f7f9;
+  --card: #ffffff;
+  --text: #1b1f24;
+  --muted: #5f6b7a;
+  --border: #dde2e8;
+  --accent: #1f4e79;
+  --accent-text: #ffffff;
+  --highlight: #fff2b3;
+  --warn-bg: #fff6e0;
+  --warn: #8a5a00;
+  --danger-bg: #fdecec;
+  --danger: #a12222;
+  color-scheme: light;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111418;
+    --card: #1a1f25;
+    --text: #e6e9ed;
+    --muted: #9aa5b1;
+    --border: #2c333b;
+    --accent: #7fb3e6;
+    --accent-text: #0b1520;
+    --highlight: #4a4013;
+    --warn-bg: #2e2510;
+    --warn: #e8b85a;
+    --danger-bg: #3a1717;
+    --danger: #f08a8a;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); }
+a { color: var(--accent); }
+h1 { font-size: 1.6rem; margin: 0.2rem 0 0.4rem; }
+h2 { font-size: 1.15rem; margin: 0 0 0.6rem; }
+
+.topbar {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 0.7rem 16px; border-bottom: 1px solid var(--border); background: var(--card);
+}
+.brand { font-weight: 700; text-decoration: none; margin-right: auto; }
+.page { max-width: 760px; margin: 0 auto; padding: 1.2rem 16px 2rem; }
+.page.narrow { max-width: 560px; padding-top: 3rem; }
+.footer { max-width: 760px; margin: 0 auto; padding: 0 16px 2rem; }
+
+.card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  padding: 1rem 1.1rem; margin: 0 0 1rem;
+}
+.lead { font-size: 1.1rem; }
+.muted { color: var(--muted); }
+.small { font-size: 0.875rem; }
+.error { color: var(--danger); }
+.row { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+.between { justify-content: space-between; }
+.right { text-align: right; display: flex; flex-direction: column; gap: 0.25rem; align-items: flex-end; }
+.points { padding-left: 1.2rem; }
+
+button, .button {
+  font: inherit; padding: 0.45rem 0.9rem; border-radius: 8px; cursor: pointer;
+  border: 1px solid var(--border); background: var(--card); color: var(--text); text-decoration: none;
+}
+button:disabled { opacity: 0.6; cursor: progress; }
+button.primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); padding: 0.6rem 1.2rem; }
+button.link { border: none; background: none; color: var(--accent); padding: 0; }
+.danger-button { color: var(--danger); }
+
+.source {
+  font-size: 0.75rem; padding: 0 0.35rem; border-radius: 4px; vertical-align: 1px;
+  color: var(--muted); font-family: ui-monospace, monospace;
+}
+.badge { font-size: 0.75rem; padding: 0.05rem 0.45rem; border-radius: 999px; margin-left: 0.4rem; white-space: nowrap; }
+.badge.warn { background: var(--warn-bg); color: var(--warn); }
+.badge.danger { background: var(--danger-bg); color: var(--danger); }
+
+.alert { border-radius: 10px; padding: 0.9rem 1rem; margin: 0 0 1rem; }
+.alert.danger { background: var(--danger-bg); color: var(--text); border: 1px solid var(--danger); }
+.warn-card { background: var(--warn-bg); border-color: var(--warn); }
+
+.letters, .deadlines, .claims { list-style: none; padding: 0; margin: 0; }
+.letter-row { display: flex; justify-content: space-between; gap: 1rem; text-decoration: none; color: var(--text); }
+.letter-row:hover { border-color: var(--accent); }
+.deadlines > li { padding: 0.6rem 0; border-top: 1px solid var(--border); }
+.deadlines > li:first-child { border-top: none; padding-top: 0; }
+.claims li { margin: 0.4rem 0; }
+.unsure { opacity: 0.85; }
+
+.facts { margin: 0; display: grid; gap: 0.5rem; }
+.facts > div { display: grid; grid-template-columns: 9rem 1fr; gap: 0.6rem; }
+.facts dt { color: var(--muted); }
+.facts dd { margin: 0; overflow-wrap: anywhere; }
+@media (max-width: 520px) {
+  .facts > div { grid-template-columns: 1fr; gap: 0; }
+  .letter-row { flex-direction: column; }
+  .right { align-items: flex-start; text-align: left; }
+}
+
+.transcript { list-style: none; padding: 0; margin: 0; font-size: 0.875rem; }
+.transcript li { padding: 0.1rem 0.3rem; border-radius: 4px; overflow-wrap: anywhere; }
+.transcript li.hl { background: var(--highlight); }
+.transcript li.suspicious { color: var(--danger); text-decoration: line-through; }
+.line-id { color: var(--muted); font-family: ui-monospace, monospace; font-size: 0.75rem; margin-right: 0.4rem; }
+.feed { display: block; overflow-wrap: anywhere; padding: 0.5rem; margin: 0.5rem 0; background: var(--bg); border-radius: 6px; }
